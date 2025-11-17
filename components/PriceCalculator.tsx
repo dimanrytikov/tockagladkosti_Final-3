@@ -29,13 +29,14 @@ const AccordionItem: React.FC<{
                  <div className="pt-5 pb-2 px-2">
                     <div className="flex flex-wrap gap-3">
                         {category.zones.map(zone => (
-                            <label key={zone.id} className={`zone-label ${selectedZones[zone.id] ? 'checked' : ''}`}>
+                            <label key={zone.id} className={`zone-label ${selectedZones[zone.id] ? 'checked' : ''} ${selectedZones['full-body'] && zone.id !== 'full-body' ? 'disabled:opacity-60 disabled:cursor-not-allowed' : ''}`}>
                                 <input
                                     type="checkbox"
                                     name="zone"
                                     className="hidden"
                                     checked={!!selectedZones[zone.id]}
                                     onChange={(e) => onZoneChange(zone.id, e.target.checked)}
+                                    disabled={!!selectedZones['full-body'] && zone.id !== 'full-body'}
                                 />
                                 {zone.label}
                             </label>
@@ -92,14 +93,31 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
     const fullBodyZone = useMemo(() => allZones.find(z => z.id === 'full-body'), [allZones]);
 
     const handleZoneChange = (zoneId: string, isSelected: boolean) => {
-        if (zoneId === 'full-body' && isSelected) {
-            setSelectedZones({ 'full-body': true });
+        if (zoneId === 'full-body') {
+            if (isSelected) {
+                const newSelection: Record<string, boolean> = { 'full-body': true };
+                // Also select all other zones for visual feedback
+                allZones.forEach(zone => {
+                    if (zone.id !== 'full-body') {
+                        newSelection[zone.id] = true;
+                    }
+                });
+                setSelectedZones(newSelection);
+            } else {
+                setSelectedZones({}); // Deselect everything
+            }
         } else {
-            setSelectedZones(prev => {
+             setSelectedZones(prev => {
                 const newSelection = { ...prev, [zoneId]: isSelected };
-                // If another zone is selected, unselect 'full-body'
-                if (isSelected && newSelection['full-body']) {
+                // If another zone is changed, unselect 'full-body'
+                if (newSelection['full-body']) {
                     delete newSelection['full-body'];
+                    // And deselect all other zones that were auto-selected
+                    allZones.forEach(zone => {
+                        if (zone.id !== zoneId) {
+                           delete newSelection[zone.id];
+                        }
+                    });
                 }
                 return newSelection;
             });
@@ -119,30 +137,28 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
         };
 
         if (isFullBodySelected && fullBodyZone) {
-            // Sum of the most granular parts to show the maximum possible saving.
-            const fullBodyComponentZoneIds = [
-                // Face parts
-                'upper-lip', 'chin', 'glabella', 'sideburns', 'cheeks',
-                // Arm parts
-                'arms-lower', 'arms-upper', 'hands',
-                // Leg parts
-                'lower-legs', 'thighs', 'feet',
-                // Body parts
-                'armpits', 'bikini-deep', 'stomach-full',
-                'buttocks', 'back-full', 'areolas', 'chest-full', 'neck-full',
+            // Define the zones that constitute the "full body" package for accurate calculation.
+            const fullBodyComponentIds = [
+                'full-face', 'armpits', 'bikini-deep', 'stomach-full', 
+                'buttocks', 'chest-full', 'back-full', 'neck-full', 
+                'arms-full', 'legs-full'
             ];
             const totalIndividualPrice = allZones
-                .filter(zone => fullBodyComponentZoneIds.includes(zone.id))
+                .filter(zone => fullBodyComponentIds.includes(zone.id))
                 .reduce((sum, zone) => sum + zone.price, 0);
 
             basePrice = fullBodyZone.price;
+            const discountAmount = totalIndividualPrice - basePrice;
+            // The user requested to explicitly show 35% discount for the "Full Body" package.
+            const discountPercent = 35; // Hardcoded to avoid rounding issues and match the requirement.
+
             details = {
                 isFullBodyMode: true,
                 activeZones: [fullBodyZone],
                 total: totalIndividualPrice,
-                count: 1,
-                discountPercent: 0,
-                discountAmount: totalIndividualPrice - fullBodyZone.price,
+                count: 1, // Treat as a single complex item
+                discountPercent: discountPercent,
+                discountAmount: discountAmount,
             };
         } else {
             const activeZones = allZones.filter(zone => selectedZones[zone.id] && zone.id !== 'full-body');
@@ -188,7 +204,7 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
     }, [calculation.finalPrice]);
 
     const handleBookComplex = () => {
-        if (calculation.count === 0) return;
+        if (calculation.count === 0 && !calculation.isFullBodyMode) return;
         
         let serviceName: string;
         if (calculation.isFullBodyMode) {
@@ -205,12 +221,17 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
         if (isForMen) {
             serviceName += " (мужской)";
         }
+        
+        const activeZoneNames = calculation.isFullBodyMode 
+            ? ["Все зоны включены"] 
+            : calculation.activeZones.map(z => z.name);
+
 
         onOpenModal({
             name: serviceName,
             price: calculation.finalPrice,
             isComplex: true,
-            zones: calculation.activeZones.map(z => z.name)
+            zones: activeZoneNames
         });
     };
     
@@ -261,11 +282,11 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
                                         {calculation.isFullBodyMode ? (
                                             <>
                                                 <div className="flex justify-between text-lg">
-                                                    <span>Полная стоимость:</span>
+                                                    <span>Сумма зон по-отдельности:</span>
                                                     <span className="font-bold line-through text-text-muted">{calculation.total.toLocaleString('ru-RU')} р.</span>
                                                 </div>
-                                                <div className="flex justify-between text-lg text-accent">
-                                                    <span>Ваша выгода:</span>
+                                                <div className="flex justify-between text-lg text-green-400">
+                                                    <span>Ваша выгода ({calculation.discountPercent}%):</span>
                                                     <span className="font-bold">- {calculation.discountAmount.toLocaleString('ru-RU')} р.</span>
                                                 </div>
                                             </>
@@ -311,8 +332,8 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
                             </div>
                             <button
                                 onClick={handleBookComplex}
-                                disabled={calculation.count === 0}
-                                className={`w-full mt-6 cta-button px-10 py-4 text-lg ${calculation.count === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                disabled={calculation.count === 0 && !calculation.isFullBodyMode}
+                                className={`w-full mt-6 cta-button px-10 py-4 text-lg ${(calculation.count === 0 && !calculation.isFullBodyMode) ? 'opacity-50 cursor-not-allowed' : ''}`}
                             >
                                 Записаться на комплекс
                             </button>

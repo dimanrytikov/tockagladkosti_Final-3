@@ -9,6 +9,7 @@ import { Footer } from './components/Footer';
 import { BookingModal } from './components/BookingModal';
 import CartModal from './components/CartModal';
 import TelegramFloat from './components/TelegramFloat';
+import AutumnLeaves from './components/AutumnLeaves';
 import { ModalData, CartItem } from './types';
 
 const Preloader: React.FC = () => (
@@ -143,6 +144,7 @@ function App() {
     return (
         <>
             {loading && <Preloader />}
+            <AutumnLeaves />
             <div className={loading ? 'opacity-0' : 'animate-fade-in'}>
                 <Header 
                     onOpenModal={() => handleOpenModal({ name: 'Общая запись (без процедуры)', price: 'по прайсу', isComplex: false })} 

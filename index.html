@@ -151,6 +151,9 @@
                         'pulse-glow': 'pulse-glow 2.5s ease-in-out infinite',
                         'bounce-subtle': 'bounce-subtle 2s ease-in-out infinite',
                         'subtle-float': 'subtle-float 4s ease-in-out infinite',
+                        'fall': 'fall linear infinite',
+                        'sway': 'sway ease-in-out infinite alternate',
+                        'flutter': 'flutter 6s ease-in-out infinite alternate',
                     },
                     keyframes: {
                         'jiggle': {
@@ -186,6 +189,17 @@
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-8px)' },
                         },
+                        'fall': {
+                            'to': { transform: 'translateY(110vh)' }
+                        },
+                        'sway': {
+                            '0%': { transform: 'translateX(0) rotate(-10deg)' },
+                            '100%': { transform: 'translateX(100px) rotate(25deg)' }
+                        },
+                        'flutter': {
+                            '0%': { transform: 'translateX(0px) rotate(-5deg)' },
+                            '100%': { transform: 'translateX(20px) rotate(10deg)' }
+                        }
                     }
                 }
             },

@@ -253,7 +253,7 @@ export const calculatorData: CalculatorCategory[] = [
     },
     {
         id: 'full-package', title: 'Специальный Комплекс', zones: [
-             { id: 'full-body', name: 'Всё тело', price: 6500, label: 'Всё тело (6500р)' },
+             { id: 'full-body', name: 'Всё тело', price: 9295, label: 'Всё тело (9295р)' },
         ]
     }
 ];
