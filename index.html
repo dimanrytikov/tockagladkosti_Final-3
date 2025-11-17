@@ -92,7 +92,65 @@
                         },
                     }
                 }
-            }
+            },
+            plugins: [
+                tailwind.plugin(function ({ addBase, addComponents }) {
+                    addBase({
+                        'html': { 'scroll-behavior': 'smooth' },
+                        'body': {
+                            '@apply font-sans text-base text-text-main': {},
+                            '-webkit-font-smoothing': 'antialiased',
+                            '-moz-osx-font-smoothing': 'grayscale',
+                            'background-color': '#1a1a1a',
+                            'background-image': 'radial-gradient(ellipse 80% 80% at 50% -20%, rgba(192, 152, 46, 0.1), transparent), linear-gradient(to right, #1a1a1a, #222222)',
+                            'background-attachment': 'fixed',
+                        },
+                        'h1, h2, h3, h4, h5, h6': {
+                            '@apply font-heading tracking-wide text-text-main': {},
+                        },
+                        '::-webkit-scrollbar': { 'width': '8px' },
+                        '::-webkit-scrollbar-track': { 'background': '#1a1a1a' },
+                        '::-webkit-scrollbar-thumb': {
+                            'background-color': '#c0982e',
+                            'border-radius': '10px',
+                            'border': '2px solid #1a1a1a',
+                        },
+                        'input[type="date"]::-webkit-calendar-picker-indicator': { 'filter': 'invert(0.8)' },
+                        'input[type="date"]:required:invalid::-webkit-datetime-edit': { 'color': '#a3a3a3' },
+                        'input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active': {
+                            '-webkit-box-shadow': '0 0 0 30px #1a1a1a inset !important',
+                            'box-shadow': '0 0 0 30px #1a1a1a inset !important',
+                            '-webkit-text-fill-color': '#e5e5e5 !important',
+                            'caret-color': '#e5e5e5 !important',
+                        },
+                        '@media print': {
+                            'header, footer, #price-calc .lg\\:col-span-1, .back-to-top-button, button, a[href^="#"]': { 'display': 'none !important' },
+                            'body': {
+                                'background-image': 'none !important',
+                                'background-color': '#ffffff !important',
+                                'color': '#000000 !important',
+                            },
+                            'h1, h2, h3, h4, h5, h6, p, span, div': { 'color': '#000000 !important' },
+                            'section': { 'padding-top': '2rem !important', 'padding-bottom': '2rem !important' },
+                        },
+                    });
+                    addComponents({
+                        '.cta-button': { '@apply inline-block bg-accent text-text-on-accent font-bold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105 active:scale-95 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50': {} },
+                        '.zone-label': { '@apply inline-block px-4 py-2.5 bg-surface border border-transparent rounded-full cursor-pointer transition-all duration-200 ease-in-out text-sm font-medium text-text-main': {} },
+                        '.zone-label:hover': { '@apply bg-gray-600': {} },
+                        '.zone-label:focus-within': { '@apply ring-2 ring-accent ring-offset-2 ring-offset-primary': {} },
+                        '.zone-label.checked': { '@apply bg-accent text-text-on-accent font-semibold': {} },
+                        '.back-to-top-button': { '@apply fixed bottom-6 right-4 lg:bottom-8 lg:right-8 bg-accent/90 text-text-on-accent w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 ease-in-out hover:bg-accent hover:scale-110 z-40': {} },
+                        '.nav-link.active': { '@apply bg-accent text-text-on-accent border-accent': {} },
+                        '.accordion-content': {
+                            '@apply grid transition-all duration-500 ease-in-out overflow-hidden': {},
+                            'grid-template-rows': '0fr',
+                        },
+                        '.accordion-content.open': { 'grid-template-rows': '1fr' },
+                        '.accordion-content > div': { '@apply min-h-0': {} },
+                    });
+                }),
+            ],
         }
     </script>
     
@@ -104,107 +162,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
     
-    <!-- Custom Tailwind Styles -->
-    <style type="text/tailwindcss">
-        @layer base {
-            html {
-                scroll-behavior: smooth;
-            }
-            body {
-                @apply font-sans text-base text-text-main;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-                background-color: #1a1a1a;
-                background-image: 
-                    radial-gradient(ellipse 80% 80% at 50% -20%, rgba(192, 152, 46, 0.1), transparent),
-                    linear-gradient(to right, #1a1a1a, #222222);
-                background-attachment: fixed;
-            }
-            h1, h2, h3, h4, h5, h6 {
-                @apply font-heading tracking-wide text-text-main;
-            }
-            /* Custom scrollbar for a more integrated look on dark theme */
-            ::-webkit-scrollbar {
-                width: 8px;
-            }
-            ::-webkit-scrollbar-track {
-                background: #1a1a1a;
-            }
-            ::-webkit-scrollbar-thumb {
-                background-color: #c0982e;
-                border-radius: 10px;
-                border: 2px solid #1a1a1a;
-            }
-            /* Custom date input placeholder text */
-            input[type="date"]::-webkit-calendar-picker-indicator {
-                filter: invert(0.8);
-            }
-            input[type="date"]:required:invalid::-webkit-datetime-edit {
-                color: #a3a3a3;
-            }
-        }
-        @layer components {
-            .cta-button {
-                @apply inline-block bg-accent text-text-on-accent font-bold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105 active:scale-95 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50;
-            }
-            .zone-label {
-                @apply inline-block px-4 py-2.5 bg-surface border border-transparent rounded-full cursor-pointer transition-all duration-200 ease-in-out text-sm font-medium text-text-main;
-            }
-            .zone-label:hover {
-                @apply bg-gray-600;
-            }
-            .zone-label:focus-within {
-                @apply ring-2 ring-accent ring-offset-2 ring-offset-primary;
-            }
-            .zone-label.checked {
-                @apply bg-accent text-text-on-accent font-semibold;
-            }
-            .back-to-top-button {
-                @apply fixed bottom-6 right-4 lg:bottom-8 lg:right-8 bg-accent/90 text-text-on-accent w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 ease-in-out hover:bg-accent hover:scale-110 z-40;
-            }
-            .nav-link.active {
-                 @apply bg-accent text-text-on-accent border-accent;
-            }
-            .accordion-content {
-                @apply grid transition-all duration-500 ease-in-out overflow-hidden;
-                grid-template-rows: 0fr;
-            }
-            .accordion-content.open {
-                grid-template-rows: 1fr;
-            }
-            .accordion-content > div {
-                @apply min-h-0;
-            }
-        }
-        /* Custom styles for browser autofill to match the dark theme */
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover,
-        input:-webkit-autofill:focus,
-        input:-webkit-autofill:active {
-            -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
-            box-shadow: 0 0 0 30px #1a1a1a inset !important;
-            -webkit-text-fill-color: #e5e5e5 !important;
-            caret-color: #e5e5e5 !important;
-        }
-        /* Print styles for a clean printable version of the page */
-        @media print {
-            header, footer, #price-calc .lg\\:col-span-1, .back-to-top-button, button, a[href^="#"] {
-                display: none !important;
-            }
-            body {
-                background-image: none !important;
-                background-color: #ffffff !important;
-                color: #000000 !important;
-            }
-            h1, h2, h3, h4, h5, h6, p, span, div {
-                color: #000000 !important;
-            }
-            section {
-                padding-top: 2rem !important;
-                padding-bottom: 2rem !important;
-            }
-        }
-    </style>
 </head>
 <body>
     <div id="root"></div>
