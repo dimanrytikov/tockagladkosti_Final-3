@@ -162,7 +162,7 @@ export const Cosmetics: React.FC<CosmeticsProps> = ({ onOpenModal, onAddToCart }
                 
                 <div className={`max-w-4xl mx-auto mb-16 p-6 bg-secondary rounded-2xl border border-accent/50 shadow-lg transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '200ms' }}>
                     <p className="text-center text-lg text-text-main font-heading">
-                        <span className="text-2xl block text-accent mb-2">Эксклюзивно для наших клиентов</span>
+                        <span className="text-2xl block text-accent mb-2">Эксклюзивно для моих клиентов</span>
                         Продлите сияние вашей кожи. Приобретая профессиональный уход в день процедуры, Вы получаете <strong className="font-bold">скидку 10%</strong> на всю линейку.
                         <br/>
                         <span className="text-base text-green-400 font-semibold">Это экономия до 800 р. с одного премиум-средства!</span>

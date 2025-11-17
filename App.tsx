@@ -8,7 +8,6 @@ import GiftCertificates from './components/GiftCertificates';
 import { Footer } from './components/Footer';
 import { BookingModal } from './components/BookingModal';
 import CartModal from './components/CartModal';
-import MobileActionBar from './components/MobileActionBar';
 import TelegramFloat from './components/TelegramFloat';
 import { ModalData, CartItem } from './types';
 
@@ -150,7 +149,7 @@ function App() {
                     cartItemCount={totalCartItems}
                     onCartClick={() => setIsCartOpen(true)}
                 />
-                <main className="pb-24 lg:pb-0">
+                <main>
                     <Hero />
                     <Services onOpenModal={handleOpenModal} onAddToCart={handleAddToCart} />
                     <Cosmetics onOpenModal={handleOpenModal} onAddToCart={handleAddToCart} />
@@ -162,7 +161,6 @@ function App() {
                 {isCartOpen && <CartModal items={cartItems} onClose={() => setIsCartOpen(false)} onUpdateQuantity={handleUpdateQuantity} onClearCart={handleClearCart} />}
                 <TelegramFloat isVisible={showBackToTop} />
                 <BackToTopButton isVisible={showBackToTop} />
-                <MobileActionBar onOpenModal={() => handleOpenModal({ name: 'Общая запись (без процедуры)', price: 'по прайсу', isComplex: false })} />
             </div>
         </>
     );
