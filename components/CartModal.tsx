@@ -6,9 +6,10 @@ interface CartModalProps {
     items: CartItem[];
     onClose: () => void;
     onUpdateQuantity: (itemId: string, newQuantity: number) => void;
+    onClearCart: () => void;
 }
 
-const CartModal: React.FC<CartModalProps> = ({ items, onClose, onUpdateQuantity }) => {
+const CartModal: React.FC<CartModalProps> = ({ items, onClose, onUpdateQuantity, onClearCart }) => {
     const [isVisible, setIsVisible] = useState(false);
     const modalContentRef = useRef<HTMLDivElement>(null);
 
@@ -188,11 +189,17 @@ const CartModal: React.FC<CartModalProps> = ({ items, onClose, onUpdateQuantity 
                                 <span>{total.toLocaleString('ru-RU')} р.</span>
                             </div>
                         </div>
-
-                        <button onClick={handleOrderWhatsApp} className="w-full rounded-lg bg-green-500 text-white px-6 py-4 text-base sm:text-lg font-semibold hover:bg-green-600 flex items-center justify-center space-x-3 transition-colors duration-300">
-                            <span className="fab fa-whatsapp text-2xl" aria-hidden="true"></span>
-                            <span>Оформить заявку в WhatsApp</span>
-                        </button>
+                        
+                        <div className="flex flex-col sm:flex-row gap-4">
+                             <button onClick={onClearCart} className="w-full sm:w-auto px-6 py-4 rounded-lg bg-red-800/50 text-white font-semibold hover:bg-red-700/70 transition-colors duration-300 flex items-center justify-center space-x-2">
+                                <span className="fas fa-trash-alt" aria-hidden="true"></span>
+                                <span>Очистить</span>
+                            </button>
+                            <button onClick={handleOrderWhatsApp} className="w-full rounded-lg bg-green-500 text-white px-6 py-4 text-base sm:text-lg font-semibold hover:bg-green-600 flex items-center justify-center space-x-3 transition-colors duration-300">
+                                <span className="fab fa-whatsapp text-2xl" aria-hidden="true"></span>
+                                <span>Оформить заявку в WhatsApp</span>
+                            </button>
+                        </div>
                         <p className="text-xs text-text-muted text-center mt-3">
                             Вы будете перенаправлены в WhatsApp для отправки готового сообщения с вашей заявкой.
                         </p>

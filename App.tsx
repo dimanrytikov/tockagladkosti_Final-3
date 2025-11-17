@@ -40,11 +40,21 @@ const BackToTopButton: React.FC<{ isVisible: boolean }> = ({ isVisible }) => {
     );
 };
 
+const getInitialCart = (): CartItem[] => {
+    try {
+        const savedCart = localStorage.getItem('cart');
+        return savedCart ? JSON.parse(savedCart) : [];
+    } catch (error) {
+        console.error("Failed to parse cart from localStorage", error);
+        return [];
+    }
+};
+
 function App() {
     const [loading, setLoading] = useState(true);
     const [modalData, setModalData] = useState<ModalData | null>(null);
     const [isCartOpen, setIsCartOpen] = useState(false);
-    const [cartItems, setCartItems] = useState<CartItem[]>([]);
+    const [cartItems, setCartItems] = useState<CartItem[]>(getInitialCart);
     const [showBackToTop, setShowBackToTop] = useState(false);
 
     useEffect(() => {
@@ -61,13 +71,62 @@ function App() {
     }, []);
 
     useEffect(() => {
-        if (loading) return; // Don't attach scroll listener during preload
+        // Save cart to localStorage whenever it changes
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+    }, [cartItems]);
 
+    useEffect(() => {
+        if (loading) return; 
+
+        // Scroll listener
         const handleScroll = () => {
             setShowBackToTop(window.scrollY > 400);
         };
         window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+
+        // Custom cursor logic
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+
+        const handleMouseMove = (e: MouseEvent) => {
+            if (cursorDot && cursorOutline) {
+                cursorDot.style.left = `${e.clientX}px`;
+                cursorDot.style.top = `${e.clientY}px`;
+                cursorOutline.style.left = `${e.clientX}px`;
+                cursorOutline.style.top = `${e.clientY}px`;
+            }
+        };
+
+        const handleMouseOver = (e: MouseEvent) => {
+             if (cursorDot && cursorOutline) {
+                const target = e.target as HTMLElement;
+                if (target.closest('a, button, .zone-label, input[type=checkbox]')) {
+                    cursorDot.classList.add('active');
+                    cursorOutline.classList.add('active');
+                }
+             }
+        };
+        
+        const handleMouseOut = (e: MouseEvent) => {
+            if (cursorDot && cursorOutline) {
+                 const target = e.target as HTMLElement;
+                 if (target.closest('a, button, .zone-label, input[type=checkbox]')) {
+                    cursorDot.classList.remove('active');
+                    cursorOutline.classList.remove('active');
+                 }
+            }
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        document.body.addEventListener('mouseover', handleMouseOver);
+        document.body.addEventListener('mouseout', handleMouseOut);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('mousemove', handleMouseMove);
+            document.body.removeEventListener('mouseover', handleMouseOver);
+            document.body.removeEventListener('mouseout', handleMouseOut);
+        };
     }, [loading]);
 
 
@@ -84,10 +143,8 @@ function App() {
             const existingItemIndex = prevItems.findIndex(item => item.id === itemToAdd.id);
 
             if (existingItemIndex > -1) {
-                // If item exists
                 const existingItem = prevItems[existingItemIndex];
                 if (existingItem.type === 'product') {
-                    // Update quantity for products
                     const updatedItems = [...prevItems];
                     updatedItems[existingItemIndex] = {
                         ...existingItem,
@@ -95,14 +152,16 @@ function App() {
                     };
                     return updatedItems;
                 }
-                // For services, do nothing if it's already in the cart
                 return prevItems;
             }
             
-            // If item doesn't exist, add it
             return [...prevItems, itemToAdd];
         });
-        setIsCartOpen(true); // Open cart on add
+        setIsCartOpen(true);
+    }, []);
+    
+    const handleClearCart = useCallback(() => {
+        setCartItems([]);
     }, []);
 
     const handleUpdateQuantity = useCallback((itemId: string, newQuantity: number) => {
@@ -118,7 +177,6 @@ function App() {
         });
     }, []);
     
-    // Calculate total items for the cart badge. Counts each service as 1 and sums product quantities.
     const totalCartItems = cartItems.reduce((total, item) => {
         return total + (item.type === 'product' ? item.quantity : 1);
     }, 0);
@@ -141,7 +199,7 @@ function App() {
                     <Footer />
                 </main>
                 {modalData && <BookingModal data={modalData} onClose={handleCloseModal} />}
-                {isCartOpen && <CartModal items={cartItems} onClose={() => setIsCartOpen(false)} onUpdateQuantity={handleUpdateQuantity} />}
+                {isCartOpen && <CartModal items={cartItems} onClose={() => setIsCartOpen(false)} onUpdateQuantity={handleUpdateQuantity} onClearCart={handleClearCart} />}
                 <TelegramFloat isVisible={showBackToTop} />
                 <BackToTopButton isVisible={showBackToTop} />
                 <MobileActionBar onOpenModal={() => handleOpenModal({ name: 'Общая запись (без процедуры)', price: 'по прайсу', isComplex: false })} />

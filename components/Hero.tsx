@@ -1,17 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { smoothScrollToId } from '../utils/navigation';
 
 const Hero: React.FC = () => {
+    const [offsetY, setOffsetY] = useState(0);
+    const bgRef = useRef<HTMLImageElement>(null);
+
+    const handleScroll = () => {
+        // Apply parallax only on larger screens to avoid mobile performance issues
+        if (window.innerWidth > 768) {
+            setOffsetY(window.pageYOffset);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
 
     const handleScrollLink = (event: React.MouseEvent<HTMLAnchorElement>) => {
         smoothScrollToId(event, 70); // fallback height
     };
 
-
     return (
         <section className="relative pt-32 pb-16 lg:pt-48 lg:pb-24 min-h-screen flex items-center justify-center text-center bg-primary overflow-hidden">
             <div className="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1598422860884-245c34336f73?q=80&w=1200&auto=format&fit=crop" alt="Абстрактное изображение косметических средств на темном фоне." className="w-full h-full object-cover opacity-20"/>
+                <img 
+                    ref={bgRef}
+                    src="https://images.unsplash.com/photo-1598422860884-245c34336f73?q=80&w=1200&auto=format&fit=crop" 
+                    alt="Абстрактное изображение косметических средств на темном фоне." 
+                    className="w-full h-full object-cover opacity-20"
+                    style={{ transform: `translateY(${offsetY * 0.3}px)` }}
+                />
             </div>
             <div className="relative z-10 container mx-auto px-4">
                 <h1 className="font-heading font-normal text-4xl sm:text-5xl lg:text-7xl tracking-tight text-text-main leading-tight animate-fade-in-up">

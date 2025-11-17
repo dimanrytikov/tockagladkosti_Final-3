@@ -105,13 +105,23 @@
             html {
                 scroll-behavior: smooth;
             }
-            h1, h2, h3, h4, h5, h6 {
-                @apply font-heading tracking-wide text-text-main;
-            }
             body {
                 @apply font-sans text-base text-text-main bg-primary;
                 -webkit-font-smoothing: antialiased;
                 -moz-osx-font-smoothing: grayscale;
+            }
+             /* Hide default cursor on desktop */
+            @media (pointer: fine) {
+                html, body, button, a {
+                    cursor: none;
+                }
+                /* Show default cursor on text inputs */
+                input[type="text"], input[type="tel"], input[type="date"], input[type="time"] {
+                    cursor: text;
+                }
+            }
+            h1, h2, h3, h4, h5, h6 {
+                @apply font-heading tracking-wide text-text-main;
             }
             /* Custom scrollbar for a more integrated look on dark theme */
             ::-webkit-scrollbar {
@@ -150,7 +160,7 @@
                 @apply bg-accent text-text-on-accent font-semibold;
             }
             .back-to-top-button {
-                @apply fixed bottom-8 right-8 bg-accent/90 text-text-on-accent w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 ease-in-out hover:bg-accent hover:scale-110 z-40;
+                @apply fixed bottom-24 right-4 lg:bottom-8 lg:right-8 bg-accent/90 text-text-on-accent w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 ease-in-out hover:bg-accent hover:scale-110 z-40;
             }
             .nav-link.active {
                  @apply bg-accent text-text-on-accent border-accent;
@@ -165,6 +175,35 @@
             box-shadow: 0 0 0 30px #1a1a1a inset !important;
             -webkit-text-fill-color: #e5e5e5 !important;
             caret-color: #e5e5e5 !important;
+        }
+        /* Custom cursor styles */
+        #cursor-dot, #cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease-out;
+        }
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #c0982e;
+        }
+        #cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #c0982e;
+            opacity: 0.5;
+        }
+        #cursor-dot.active {
+           transform: translate(-50%, -50%) scale(0.5);
+        }
+        #cursor-outline.active {
+            transform: translate(-50%, -50%) scale(1.5);
+            opacity: 0.2;
         }
         /* Print styles for a clean printable version of the page */
         @media print {
@@ -187,6 +226,8 @@
     </style>
 </head>
 <body>
+    <div id="cursor-dot" class="hidden md:block"></div>
+    <div id="cursor-outline" class="hidden md:block"></div>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>

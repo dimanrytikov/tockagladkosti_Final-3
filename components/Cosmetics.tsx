@@ -195,8 +195,14 @@ export const Cosmetics: React.FC<CosmeticsProps> = ({ onOpenModal, onAddToCart }
                                 <p className="text-text-muted">{activeTabData.description}</p>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 font-sans">
-                                {activeTabData.products.map(product => (
-                                    <ProductCard key={`${activeBrandId}-${product.name}`} product={product} onAddToCart={onAddToCart} />
+                                {activeTabData.products.map((product, index) => (
+                                    <div 
+                                        key={`${activeBrandId}-${product.name}`}
+                                        className="animate-fade-in-up"
+                                        style={{ animationDelay: `${index * 100}ms` }}
+                                    >
+                                        <ProductCard product={product} onAddToCart={onAddToCart} />
+                                    </div>
                                 ))}
                             </div>
                         </div>

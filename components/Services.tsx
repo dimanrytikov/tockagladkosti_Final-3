@@ -69,7 +69,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, onAddToCart }) => {
                             </div>
 
                             {purchaseType === 'course' && (
-                                <div className="flex items-center justify-between mb-3 fade-in-content">
+                                <div className="flex items-center justify-between mb-3 animate-fade-in">
                                     <label className="text-text-main font-semibold">Кол-во сеансов:</label>
                                     <div className="flex items-center gap-2">
                                         <button onClick={() => setCourseSessions(s => Math.max(5, s - 1))} className="w-8 h-8 rounded-md bg-surface hover:bg-accent hover:text-text-on-accent transition-colors">-</button>
@@ -143,7 +143,7 @@ const Services: React.FC<ServicesProps> = ({ onOpenModal, onAddToCart }) => {
                          <div 
                             key={service.id}
                             className={`transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-                            style={{ transitionDelay: `${index * 100 + 300}ms` }}
+                            style={{ transitionDelay: `${index * 150 + 300}ms` }}
                         >
                             <ServiceCard service={service} onAddToCart={onAddToCart} />
                         </div>
