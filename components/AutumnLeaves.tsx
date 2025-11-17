@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 
 const ELEMENTS = ['🍁', '🍂', '❄️', '❅', '🍂', '🍁']; // Mix of leaves and snowflakes for seasonal variety
-const ELEMENT_COUNT = 40; // Increased count for a fuller, more immersive effect
+const ELEMENT_COUNT = 15; // Number of falling elements
 
 // Helper function to distinguish between element types for different animations
 const isLeaf = (char: string) => ['🍁', '🍂'].includes(char);
