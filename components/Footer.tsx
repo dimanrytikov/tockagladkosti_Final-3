@@ -43,7 +43,7 @@ export const Footer: React.FC = () => {
                                                    className="inline-flex items-center gap-2 text-sm bg-surface px-3 py-1.5 rounded-full hover:bg-gray-700 transition-colors duration-200 group">
                                                     <span className="font-bold text-yellow-400">5.0 ★★★★★</span>
                                                     <span className="text-text-muted group-hover:text-accent transition-colors">
-                                                        Читать и оставить отзыв
+                                                        Читать и оставить отзыв в 2ГИС
                                                     </span>
                                                     <span className="fas fa-external-link-alt text-xs text-text-muted group-hover:text-accent transition-colors" aria-hidden="true"></span>
                                                 </a>

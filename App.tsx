@@ -84,48 +84,8 @@ function App() {
         };
         window.addEventListener('scroll', handleScroll);
 
-        // Custom cursor logic
-        const cursorDot = document.getElementById('cursor-dot');
-        const cursorOutline = document.getElementById('cursor-outline');
-
-        const handleMouseMove = (e: MouseEvent) => {
-            if (cursorDot && cursorOutline) {
-                cursorDot.style.left = `${e.clientX}px`;
-                cursorDot.style.top = `${e.clientY}px`;
-                cursorOutline.style.left = `${e.clientX}px`;
-                cursorOutline.style.top = `${e.clientY}px`;
-            }
-        };
-
-        const handleMouseOver = (e: MouseEvent) => {
-             if (cursorDot && cursorOutline) {
-                const target = e.target as HTMLElement;
-                if (target.closest('a, button, .zone-label, input[type=checkbox]')) {
-                    cursorDot.classList.add('active');
-                    cursorOutline.classList.add('active');
-                }
-             }
-        };
-        
-        const handleMouseOut = (e: MouseEvent) => {
-            if (cursorDot && cursorOutline) {
-                 const target = e.target as HTMLElement;
-                 if (target.closest('a, button, .zone-label, input[type=checkbox]')) {
-                    cursorDot.classList.remove('active');
-                    cursorOutline.classList.remove('active');
-                 }
-            }
-        };
-
-        window.addEventListener('mousemove', handleMouseMove);
-        document.body.addEventListener('mouseover', handleMouseOver);
-        document.body.addEventListener('mouseout', handleMouseOut);
-
         return () => {
             window.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('mousemove', handleMouseMove);
-            document.body.removeEventListener('mouseover', handleMouseOver);
-            document.body.removeEventListener('mouseout', handleMouseOut);
         };
     }, [loading]);
 

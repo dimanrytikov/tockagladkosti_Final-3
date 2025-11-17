@@ -106,19 +106,14 @@
                 scroll-behavior: smooth;
             }
             body {
-                @apply font-sans text-base text-text-main bg-primary;
+                @apply font-sans text-base text-text-main;
                 -webkit-font-smoothing: antialiased;
                 -moz-osx-font-smoothing: grayscale;
-            }
-             /* Hide default cursor on desktop */
-            @media (pointer: fine) {
-                html, body, button, a {
-                    cursor: none;
-                }
-                /* Show default cursor on text inputs */
-                input[type="text"], input[type="tel"], input[type="date"], input[type="time"] {
-                    cursor: text;
-                }
+                background-color: #1a1a1a;
+                background-image: 
+                    radial-gradient(ellipse 80% 80% at 50% -20%, rgba(192, 152, 46, 0.1), transparent),
+                    linear-gradient(to right, #1a1a1a, #222222);
+                background-attachment: fixed;
             }
             h1, h2, h3, h4, h5, h6 {
                 @apply font-heading tracking-wide text-text-main;
@@ -176,35 +171,6 @@
             -webkit-text-fill-color: #e5e5e5 !important;
             caret-color: #e5e5e5 !important;
         }
-        /* Custom cursor styles */
-        #cursor-dot, #cursor-outline {
-            position: fixed;
-            top: 0;
-            left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transition: all 0.1s ease-out;
-        }
-        #cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #c0982e;
-        }
-        #cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 2px solid #c0982e;
-            opacity: 0.5;
-        }
-        #cursor-dot.active {
-           transform: translate(-50%, -50%) scale(0.5);
-        }
-        #cursor-outline.active {
-            transform: translate(-50%, -50%) scale(1.5);
-            opacity: 0.2;
-        }
         /* Print styles for a clean printable version of the page */
         @media print {
             header, footer, #price-calc .lg\\:col-span-1, .back-to-top-button, button, a[href^="#"] {
@@ -226,8 +192,6 @@
     </style>
 </head>
 <body>
-    <div id="cursor-dot" class="hidden md:block"></div>
-    <div id="cursor-outline" class="hidden md:block"></div>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>
