@@ -27,7 +27,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
         tagline: 'Это космецевтика SKIN SYNERGY. Выберите интересующую вас линейку, чтобы добавить продукты в корзину.',
         tabs: [
             {
-                id: 'nmf-hydrating', title: 'N.M.F. Увлажнение', heading: 'Линейка N.M.F. HYDRATING',
+                id: 'nmf-hydrating', title: 'N.M.F. Увлажнение', icon: 'fas fa-tint', heading: 'Линейка N.M.F. HYDRATING',
                 description: 'Интенсивное и пролонгированное увлажнение для сухой и обезвоженной кожи на основе компонентов натурального увлажняющего фактора.',
                 products: [
                     { name: 'N.M.F. Hydrating Foam', theme: 'sky', description: 'Бессульфатная пенка на основе мягких ПАВ эффективно очищает кожу от загрязнений, удаляет макияж, подготавливает кожу к нанесению остальных средств серии.', activeComponents: ['Молочная кислота', 'Глюконолактон', 'Лактобионовая кислота', 'Аргинин', 'Мочевина', 'Пантенол', 'N.M.F.'], variants: [{ size: '200 мл', price: 3400 }, { size: '50 мл', price: 1430 }] },
@@ -37,7 +37,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
                 ],
             },
             {
-                id: 'corneotherapy', title: 'Корнеотерапия', heading: 'Линейка CORNEOTHERAPY',
+                id: 'corneotherapy', title: 'Корнеотерапия', icon: 'fas fa-shield-alt', heading: 'Линейка CORNEOTHERAPY',
                 description: 'Липидотерапия, направленная на восстановление и поддержание эпидермального барьера кожи.',
                 products: [
                     { name: 'Corneotherapy Foam', theme: 'cyan', description: 'Пенка на основе сверхмягкого ПАВ нового поколения создана для эффективного очищения кожи, восстановления и сохранения эпидермального барьера.', activeComponents: ['Кокоил глутамат', 'Мальва экстракт', 'Трегалоза', 'Пантенол', 'Глицин'], variants: [{ size: '200 мл', price: 3340 }, { size: '50 мл', price: 1400 }] },
@@ -46,7 +46,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
                 ],
             },
             {
-                id: 'lipid-care', title: 'Чувствительная кожа', heading: 'Линейка LIPID-CARE',
+                id: 'lipid-care', title: 'Чувствительная кожа', icon: 'fas fa-heart', heading: 'Линейка LIPID-CARE',
                 description: 'Уход для чувствительной кожи, склонной к покраснениям и раздражению. Восстановление барьерных свойств и снятие реактивности.',
                 products: [
                     { name: 'Lipid-Care Calming Serum', theme: 'teal', description: 'Сыворотка для ежедневного ухода за чувствительной кожей с липидами, эктоином, гликоином и комплексом успокаивающих компонентов.', activeComponents: ['Эктоин', 'Гликоин', 'Пальмитоил тетрапептид-7', 'Мембранный липидный комплекс', 'Аминокислоты', 'Экстракты'], variants: [{ size: '30 мл', price: 3480 }] },
@@ -56,7 +56,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
                 ],
             },
             {
-                id: 'age-lift', title: 'Anti-Age и Лифтинг', heading: 'Линейки Anti-Age и Лифтинг',
+                id: 'age-lift', title: 'Anti-Age и Лифтинг', icon: 'fas fa-atom', heading: 'Линейки Anti-Age и Лифтинг',
                 description: 'Мощные формулы с ретиноидами, пептидами и ДМАЭ для борьбы с возрастными изменениями, стимуляции коллагена и укрепления овала лица.',
                 products: [
                     { name: 'HPR Peptide Eye Serum', theme: 'purple', description: 'Инновационная сыворотка с комплексом пептидов и двумя формами гидроксипинаколон ретиноата для эффективного ухода за кожей вокруг глаз.', activeComponents: ['Ретиноат 0,05%', 'Пептиды', 'Биоретиноиды (бакучиол)', 'Церамиды NS', 'Гиалуроновая кислота'], variants: [{ size: '30 мл', price: 5300 }] },
@@ -69,7 +69,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
                 ],
             },
             {
-                id: 'pigment-control', title: 'Контроль пигмента', heading: 'Линейки для борьбы с пигментацией',
+                id: 'pigment-control', title: 'Контроль пигмента', icon: 'fas fa-adjust', heading: 'Линейки для борьбы с пигментацией',
                 description: 'Эффективные средства с Витамином С, азелаиновой и транексамовой кислотами, арбутином для осветления пигментных пятен и выравнивания тона кожи.',
                 products: [
                     { name: 'Azelaic 2-Function Foam', theme: 'lime', description: 'Бессульфатная пенка с азелаиновой, койевой, фитиновой кислотами. Способствует устранению признаков старения и выравнивает тон кожи.', activeComponents: ['Азелаиновая кислота', 'Койевая кислота', 'Фитиновая кислота', 'Экстракт толокнянки', 'Аргинин', 'Пантенол'], variants: [{ size: '200 мл', price: 3540 }, { size: '50 мл', price: 1500 }] },
@@ -83,7 +83,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
                 ],
             },
             {
-                id: 'acne-control', title: 'Акне и Жирная кожа', heading: 'Линейки для проблемной кожи',
+                id: 'acne-control', title: 'Акне и Жирная кожа', icon: 'fas fa-dot-circle', heading: 'Линейки для проблемной кожи',
                 description: 'Продукты для нормализации себорегуляции и улучшения состояния кожи с акне на основе салициловой кислоты, ретиналя и ниацинамида.',
                 products: [
                     { name: 'Salicylic Cleansing Gel', theme: 'indigo', description: 'Синергия салициловой, азелоглицина, миндальной кислот и цинка PCA для нормализации процесса себорегуляции и улучшения состояния кожи с акне.', activeComponents: ['Салициловая кислота 2%', 'Миндальная кислота 2%', 'Азелоглицин 4%', 'Zn PCA'], variants: [{ size: '300 мл', price: 4250 }] },
@@ -93,7 +93,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
                 ],
             },
             {
-                id: 'rosacea-control', title: 'Розацеа и Купероз', heading: 'Линейка TRANEXAMIC',
+                id: 'rosacea-control', title: 'Розацеа и Купероз', icon: 'fas fa-band-aid', heading: 'Линейка TRANEXAMIC',
                 description: 'Специализированный уход для борьбы с симптомами розацеа и купероза. Уменьшает покраснения и укрепляет сосуды.',
                 products: [
                     { name: 'Microbiome Balance Toner', theme: 'fuchsia', description: 'Тонер с комплексом пребиотиков, пробиотиков и постбиотиков. Оказывает иммуномоделирующее и противовоспалительное действие.', activeComponents: ['Пребиотики', 'Постбиотик', 'Пробиотики', 'Ниацинамид'], variants: [{ size: '200 мл', price: 3400 }] },
@@ -102,7 +102,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
                 ],
             },
             {
-                id: 'suncare', title: 'Защита от солнца', heading: 'Линейка LAMELLAR SUNCARE',
+                id: 'suncare', title: 'Защита от солнца', icon: 'fas fa-sun', heading: 'Линейка LAMELLAR SUNCARE',
                 description: 'Антиоксидантные и антигликационные кремы с высокой степенью защиты от UVA/UVB-излучения и синего света.',
                 products: [
                     { name: 'Lamellar Suncare SPF 30', theme: 'orange', description: 'Антиоксидантный крем на ламеллярной основе с высокой степенью защиты от UVA, UVB и синего света. Подходит для ежедневного ухода.', activeComponents: ['Фотостабильные хим. фильтры', 'Розмаринил глюкозид', 'Ресвератрол', 'Компоненты N.M.F.'], variants: [{ size: '50 мл', price: 3740 }] },
@@ -110,7 +110,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
                 ],
             },
             {
-                id: 'special-care', title: 'Специальный уход', heading: 'Профессиональный и постпроцедурный уход',
+                id: 'special-care', title: 'Специальный уход', icon: 'fas fa-star-of-life', heading: 'Профессиональный и постпроцедурный уход',
                 description: 'Средства для подготовки к пилингам, восстановления после процедур и интенсивные маски.',
                 products: [
                     { name: 'Pre-Peel Cleansing Gel', theme: 'slate', description: 'Синергия АНА, ВНА и РНА кислот для обновления кожи и глубокого очищения перед пилингом. Адаптирует кожу и способствует равномерной пенетрации пилинга.', activeComponents: ['АНА кислоты', 'ВНА кислота', 'РНА кислоты', 'Аллантоин', 'Пантенол', 'Аргинин'], variants: [{ size: '300 мл', price: 3430 }] },
@@ -121,7 +121,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
                 ],
             },
             {
-                id: 'sets', title: 'Наборы', heading: 'Готовые наборы для комплексного ухода',
+                id: 'sets', title: 'Наборы', icon: 'fas fa-box-open', heading: 'Готовые наборы для комплексного ухода',
                 description: 'Выгодные комплекты для полноценного ухода за кожей, направленные на решение конкретных задач.',
                 products: [
                     { name: 'N.M.F. Hydrating Set', subtitle: '(Foam & Cream-Serum)', theme: 'stone', description: 'Набор для ухода за сухой кожей и кожей с нарушенным эпидермальным барьерном. Пенка бережно очищает, а крем-сыворотка интенсивно увлажняет.', activeComponents: ['N.M.F. Hydrating Foam', 'N.M.F. Hydrating Cream-Serum'], variants: [{ size: 'набор', price: 6500 }] },
@@ -137,7 +137,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
         tagline: 'Профессиональная космецевтика АНГИОФАРМ для достижения максимальных результатов. Выберите линию для вашего типа кожи.',
         tabs: [
             {
-                id: 'angio-cleansing', title: 'Очищение и Эксфолиация', heading: 'Линия для Очищения и Глубокой Эксфолиации',
+                id: 'angio-cleansing', title: 'Очищение и Эксфолиация', icon: 'fas fa-soap', heading: 'Линия для Очищения и Глубокой Эксфолиации',
                 description: 'Фундаментальный этап ухода. Средства для бережного удаления загрязнений, макияжа и подготовки кожи к последующим процедурам.',
                 products: [
                     { name: 'Легкое гидрофильное масло', theme: 'sky', description: 'Мягкое гидрофильное масло для бережного демакияжа и очищения кожи без нарушения её липидного барьера.', activeComponents: ['Комплекс масел', 'Растительные экстракты'], variants: [{ size: '100 мл', price: 1458 }, { size: '200 мл', price: 2430 }] },
@@ -149,7 +149,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
                 ],
             },
             {
-                id: 'angio-moisturizing', title: 'Увлажнение', heading: 'Линия для Интенсивного Увлажнения (Moisturizing)',
+                id: 'angio-moisturizing', title: 'Увлажнение', icon: 'fas fa-tint', heading: 'Линия для Интенсивного Увлажнения (Moisturizing)',
                 description: 'Восстановление гидробаланса кожи, устранение сухости и шелушений, придание коже упругости и сияния.',
                 products: [
                     { name: 'Увлажняющий тоник', theme: 'cyan', description: 'Базовый тоник для восстановления pH-баланса и первого этапа увлажнения после умывания.', activeComponents: ['Гиалуроновая кислота', 'Экстракт алоэ', 'Мочевина'], variants: [{ size: '200 мл', price: 1422 }] },
@@ -160,7 +160,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
                 ],
             },
             {
-                id: 'angio-anti-age', title: 'Anti-Age', heading: 'Линия Anti-Age для борьбы с возрастными изменениями',
+                id: 'angio-anti-age', title: 'Anti-Age', icon: 'fas fa-atom', heading: 'Линия Anti-Age для борьбы с возрастными изменениями',
                 description: 'Высокоэффективные средства с пептидами, антиоксидантами и факторами роста для коррекции морщин, повышения упругости и лифтинг-эффекта.',
                 products: [
                     { name: 'Омолаживающий тоник', theme: 'purple', description: 'Тоник с пептидами и антиоксидантами подготавливает кожу к антивозрастному уходу и усиливает его эффективность.', activeComponents: ['Матриксил', 'Ресвератрол', 'Экстракт женьшеня'], variants: [{ size: '200 мл', price: 2274 }] },
@@ -173,7 +173,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
                 ],
             },
             {
-                id: 'angio-anti-acne', title: 'Проблемная кожа (Anti-Acne)', heading: 'Линия для жирной и проблемной кожи',
+                id: 'angio-anti-acne', title: 'Проблемная кожа (Anti-Acne)', icon: 'fas fa-dot-circle', heading: 'Линия для жирной и проблемной кожи',
                 description: 'Комплексный подход к лечению акне, контролю жирности, сужению пор и предотвращению появления новых воспалений.',
                 products: [
                     { name: 'Тоник для проблемной кожи (салиц. кислота 0,3%)', theme: 'indigo', description: 'Мягкий тоник для ежедневного ухода, деликатно эксфолиирует, очищает поры и предотвращает появление воспалений.', activeComponents: ['Салициловая кислота 0,3%', 'Цинк PCA', 'Экстракт гамамелиса'], variants: [{ size: '200 мл', price: 2100 }] },
@@ -185,7 +185,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
                 ],
             },
             {
-                id: 'angio-retinol', title: 'Ретиноиды (Retisolve)', heading: 'Линия с ретиноидами и бакучиолом',
+                id: 'angio-retinol', title: 'Ретиноиды (Retisolve)', icon: 'fas fa-rocket', heading: 'Линия с ретиноидами и бакучиолом',
                 description: 'Продвинутый уход для мощного омоложения, коррекции акне и улучшения текстуры кожи на основе различных форм ретиноидов.',
                 products: [
                     { name: 'Липосомальный тоник с ретинолом', theme: 'red', description: 'Тоник с инкапсулированным ретинолом для мягкого старта ретиноидной терапии и подготовки кожи.', activeComponents: ['Липосомальный ретинол', 'Витамин Е', 'Фосфолипиды'], variants: [{ size: '200 мл', price: 3384 }] },
@@ -195,7 +195,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
                 ],
             },
             {
-                id: 'angio-suncare', title: 'SPF и Защита', heading: 'Линия для защиты от солнца и оксидативного стресса',
+                id: 'angio-suncare', title: 'SPF и Защита', icon: 'fas fa-sun', heading: 'Линия для защиты от солнца и оксидативного стресса',
                 description: 'Современные фотостабильные фильтры и мощные антиоксиданты для надежной защиты от UVA/UVB лучей, свободных радикалов и преждевременного старения.',
                 products: [
                     { name: 'Антиоксидантный увлажняющий лосьон', theme: 'amber', description: 'Легкий лосьон с антиоксидантами для ежедневной защиты от агрессивных факторов окружающей среды и подготовки к нанесению SPF.', activeComponents: ['Витамин С', 'Феруловая кислота', 'Ресвератрол'], variants: [{ size: '200 мл', price: 2604 }, { size: '400 мл', price: 4632 }] },

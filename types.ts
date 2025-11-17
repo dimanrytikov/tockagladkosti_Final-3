@@ -25,6 +25,7 @@ export interface CosmeticProduct {
 export interface CosmeticTab {
     id: string;
     title: string;
+    icon?: string;
     heading: string;
     description: string;
     products: CosmeticProduct[];

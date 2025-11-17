@@ -13,42 +13,43 @@ const getProductThemeColors = (theme: string) => {
     // The colors are chosen to be visible and harmonious on the dark theme.
     switch (theme) {
         case 'sky':
-            return { accentText: 'text-sky-400', tagBg: 'bg-sky-900/50', shadow: 'hover:shadow-sky-400/20' };
+            return { accentText: 'text-sky-400', tagBg: 'bg-sky-900/50', shadow: 'hover:shadow-sky-400/20', border: 'border-sky-400/50' };
         case 'cyan':
-            return { accentText: 'text-cyan-400', tagBg: 'bg-cyan-900/50', shadow: 'hover:shadow-cyan-400/20' };
+            return { accentText: 'text-cyan-400', tagBg: 'bg-cyan-900/50', shadow: 'hover:shadow-cyan-400/20', border: 'border-cyan-400/50' };
         case 'teal':
-            return { accentText: 'text-teal-400', tagBg: 'bg-teal-900/50', shadow: 'hover:shadow-teal-400/20' };
+            return { accentText: 'text-teal-400', tagBg: 'bg-teal-900/50', shadow: 'hover:shadow-teal-400/20', border: 'border-teal-400/50' };
         case 'purple':
-            return { accentText: 'text-purple-400', tagBg: 'bg-purple-900/50', shadow: 'hover:shadow-purple-400/20' };
+            return { accentText: 'text-purple-400', tagBg: 'bg-purple-900/50', shadow: 'hover:shadow-purple-400/20', border: 'border-purple-400/50' };
         case 'rose':
-            return { accentText: 'text-rose-400', tagBg: 'bg-rose-900/50', shadow: 'hover:shadow-rose-400/20' };
+            return { accentText: 'text-rose-400', tagBg: 'bg-rose-900/50', shadow: 'hover:shadow-rose-400/20', border: 'border-rose-400/50' };
         case 'red':
-            return { accentText: 'text-red-400', tagBg: 'bg-red-900/50', shadow: 'hover:shadow-red-400/20' };
+            return { accentText: 'text-red-400', tagBg: 'bg-red-900/50', shadow: 'hover:shadow-red-400/20', border: 'border-red-400/50' };
         case 'lime':
-            return { accentText: 'text-lime-400', tagBg: 'bg-lime-900/50', shadow: 'hover:shadow-lime-400/20' };
+            return { accentText: 'text-lime-400', tagBg: 'bg-lime-900/50', shadow: 'hover:shadow-lime-400/20', border: 'border-lime-400/50' };
         case 'violet':
-            return { accentText: 'text-violet-400', tagBg: 'bg-violet-900/50', shadow: 'hover:shadow-violet-400/20' };
+            return { accentText: 'text-violet-400', tagBg: 'bg-violet-900/50', shadow: 'hover:shadow-violet-400/20', border: 'border-violet-400/50' };
         case 'amber':
-            return { accentText: 'text-amber-400', tagBg: 'bg-amber-900/50', shadow: 'hover:shadow-amber-400/20' };
+            return { accentText: 'text-amber-400', tagBg: 'bg-amber-900/50', shadow: 'hover:shadow-amber-400/20', border: 'border-amber-400/50' };
         case 'indigo':
-            return { accentText: 'text-indigo-400', tagBg: 'bg-indigo-900/50', shadow: 'hover:shadow-indigo-400/20' };
+            return { accentText: 'text-indigo-400', tagBg: 'bg-indigo-900/50', shadow: 'hover:shadow-indigo-400/20', border: 'border-indigo-400/50' };
         case 'fuchsia':
-            return { accentText: 'text-fuchsia-400', tagBg: 'bg-fuchsia-900/50', shadow: 'hover:shadow-fuchsia-400/20' };
+            return { accentText: 'text-fuchsia-400', tagBg: 'bg-fuchsia-900/50', shadow: 'hover:shadow-fuchsia-400/20', border: 'border-fuchsia-400/50' };
         case 'orange':
-            return { accentText: 'text-orange-400', tagBg: 'bg-orange-900/50', shadow: 'hover:shadow-orange-400/20' };
+            return { accentText: 'text-orange-400', tagBg: 'bg-orange-900/50', shadow: 'hover:shadow-orange-400/20', border: 'border-orange-400/50' };
         case 'slate':
-            return { accentText: 'text-slate-400', tagBg: 'bg-slate-800/50', shadow: 'hover:shadow-slate-400/20' };
+            return { accentText: 'text-slate-400', tagBg: 'bg-slate-800/50', shadow: 'hover:shadow-slate-400/20', border: 'border-slate-400/50' };
         case 'emerald':
-            return { accentText: 'text-emerald-400', tagBg: 'bg-emerald-900/50', shadow: 'hover:shadow-emerald-400/20' };
+            return { accentText: 'text-emerald-400', tagBg: 'bg-emerald-900/50', shadow: 'hover:shadow-emerald-400/20', border: 'border-emerald-400/50' };
         case 'stone':
-            return { accentText: 'text-stone-400', tagBg: 'bg-stone-800/50', shadow: 'hover:shadow-stone-400/20' };
+            return { accentText: 'text-stone-400', tagBg: 'bg-stone-800/50', shadow: 'hover:shadow-stone-400/20', border: 'border-stone-400/50' };
         default:
-            return { accentText: 'text-accent', tagBg: 'bg-accent/10', shadow: 'hover:shadow-accent/20' }; // Fallback to main gold accent
+            return { accentText: 'text-accent', tagBg: 'bg-accent/10', shadow: 'hover:shadow-accent/20', border: 'border-accent/50' }; // Fallback to main gold accent
     }
 };
 
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+    const [isComponentsVisible, setIsComponentsVisible] = useState(false);
     const themeColors = getProductThemeColors(product.theme);
 
     const handleAddToCartClick = (variant: { size: string; price: number; }) => {
@@ -65,7 +66,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
     };
 
     return (
-        <div className={`bg-secondary rounded-xl shadow-lg flex flex-col h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${themeColors.shadow} active:scale-95 active:brightness-90`}>
+        <div className={`bg-secondary rounded-xl shadow-lg flex flex-col h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${themeColors.shadow} active:scale-95 active:brightness-90 border-t-2 ${themeColors.border}`}>
             <div className={`p-5 flex flex-col flex-grow text-text-main`}>
                 <div className="flex-grow">
                     <h4 className={`font-heading text-xl font-bold leading-tight mb-2 ${themeColors.accentText}`}>
@@ -74,16 +75,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
                     {product.subtitle && <p className={`text-sm mb-3 text-text-muted`}>{product.subtitle}</p>}
                     <p className={`text-sm mb-4 text-text-muted`}>{product.description}</p>
                 </div>
+                
                 <div className="my-3">
-                    <h5 className={`font-semibold text-sm mb-2 text-text-main`}>Активные компоненты:</h5>
-                    <div className="flex flex-wrap gap-2">
-                        {product.activeComponents.map((component) => (
-                            <span key={component} className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${themeColors.tagBg} ${themeColors.accentText}`}>
-                                {component}
-                            </span>
-                        ))}
+                    <button onClick={() => setIsComponentsVisible(!isComponentsVisible)} className="font-semibold text-sm mb-2 text-text-main hover:text-accent transition-colors flex items-center gap-2">
+                        <span>Активные компоненты</span>
+                        <span className={`fas fa-chevron-down text-xs transition-transform duration-300 ${isComponentsVisible ? 'rotate-180' : ''}`}></span>
+                    </button>
+                    <div className={`accordion-content ${isComponentsVisible ? 'open' : ''}`}>
+                         <div>
+                            <div className="flex flex-wrap gap-2 pt-2">
+                                {product.activeComponents.map((component) => (
+                                    <span key={component} className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${themeColors.tagBg} ${themeColors.accentText}`}>
+                                        {component}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
+
                 <div className="mt-auto pt-4 space-y-3 border-t border-white/10">
                     {product.variants.map(variant => (
                         <div key={variant.size} className="flex justify-between items-center text-sm">
@@ -114,14 +124,21 @@ interface CosmeticsProps {
 export const Cosmetics: React.FC<CosmeticsProps> = ({ onOpenModal, onAddToCart }) => {
     const [activeBrandId, setActiveBrandId] = useState(cosmeticsData[0].id);
     const [activeTabId, setActiveTabId] = useState(cosmeticsData[0].tabs[0].id);
+    const [contentKey, setContentKey] = useState(0); // Used to re-trigger animation
     
     useEffect(() => {
         // When brand changes, set the active tab to the first tab of the new brand
         const currentBrandData = cosmeticsData.find(b => b.id === activeBrandId);
         if (currentBrandData && currentBrandData.tabs.length > 0) {
             setActiveTabId(currentBrandData.tabs[0].id);
+            setContentKey(prev => prev + 1); // Trigger animation
         }
     }, [activeBrandId]);
+
+    const handleTabClick = (tabId: string) => {
+        setActiveTabId(tabId);
+        setContentKey(prev => prev + 1); // Trigger animation on tab change
+    }
 
     const activeBrandData = cosmeticsData.find(b => b.id === activeBrandId);
     const activeTabData = activeBrandData?.tabs.find(tab => tab.id === activeTabId);
@@ -135,7 +152,7 @@ export const Cosmetics: React.FC<CosmeticsProps> = ({ onOpenModal, onAddToCart }
     };
 
     const sectionRef = useRef<HTMLElement>(null);
-    const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.1 });
+    const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.05 });
 
     return (
         <section id="cosmetics" ref={sectionRef} className="py-16 sm:py-24 bg-surface">
@@ -169,44 +186,53 @@ export const Cosmetics: React.FC<CosmeticsProps> = ({ onOpenModal, onAddToCart }
                     </p>
                 </div>
                 
-                <div className={`relative mb-12 transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '300ms' }}>
-                     <div className="flex flex-wrap justify-center gap-3 sm:gap-4 pb-4">
-                        {activeBrandData?.tabs.map(tab => (
-                             <button
-                                key={tab.id}
-                                className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ease-in-out transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary focus:ring-accent/80 hover:-translate-y-1 ${
-                                    activeTabId === tab.id
-                                        ? 'bg-accent text-text-on-accent shadow-lg'
-                                        : 'bg-primary text-text-muted hover:bg-secondary hover:text-accent'
-                                }`}
-                                onClick={() => setActiveTabId(tab.id)}
-                            >
-                                {tab.title}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                <div className={`max-w-7xl mx-auto transition-all duration-700 ease-out ${isVisible ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: '400ms' }}>
-                    {activeTabData && (
-                         <div key={activeTabData.id} className="animate-fade-in p-4 sm:p-6 bg-primary rounded-3xl">
-                            <div className="text-center mb-6 sm:mb-8 max-w-3xl mx-auto">
-                                <h3 className="font-heading text-xl sm:text-2xl font-normal mb-3">{activeTabData.heading}</h3>
-                                <p className="text-text-muted">{activeTabData.description}</p>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 font-sans">
-                                {activeTabData.products.map((product, index) => (
-                                    <div 
-                                        key={`${activeBrandId}-${product.name}`}
-                                        className="animate-fade-in-up"
-                                        style={{ animationDelay: `${index * 100}ms` }}
-                                    >
-                                        <ProductCard product={product} onAddToCart={onAddToCart} />
-                                    </div>
+                <div className={`max-w-7xl mx-auto lg:grid lg:grid-cols-4 lg:gap-8 xl:gap-12 transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '300ms' }}>
+                    {/* Left Navigation Panel */}
+                    <aside className="lg:col-span-1 mb-12 lg:mb-0">
+                        <nav className="lg:sticky lg:top-28 bg-primary p-4 rounded-2xl">
+                             <h3 className="font-heading text-xl text-text-main mb-4 px-2">Линии ухода</h3>
+                            <ul className="space-y-1">
+                                {activeBrandData?.tabs.map(tab => (
+                                    <li key={tab.id}>
+                                        <button
+                                            onClick={() => handleTabClick(tab.id)}
+                                            className={`w-full text-left flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition-all duration-200 ease-in-out transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary focus:ring-accent/80 hover:bg-secondary ${
+                                                activeTabId === tab.id
+                                                    ? 'bg-accent text-text-on-accent shadow-md'
+                                                    : 'text-text-muted hover:text-accent'
+                                            }`}
+                                        >
+                                            {tab.icon && <span className={`${tab.icon} w-5 text-center text-lg`}></span>}
+                                            <span className="flex-grow">{tab.title}</span>
+                                        </button>
+                                    </li>
                                 ))}
+                            </ul>
+                        </nav>
+                    </aside>
+
+                    {/* Right Content Panel */}
+                    <div className="lg:col-span-3">
+                        {activeTabData && (
+                             <div key={contentKey} className="animate-fade-in">
+                                <div className="text-center mb-10 max-w-3xl mx-auto">
+                                    <h3 className="font-heading text-2xl sm:text-3xl font-normal mb-3">{activeTabData.heading}</h3>
+                                    <p className="text-text-muted text-base">{activeTabData.description}</p>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 font-sans">
+                                    {activeTabData.products.map((product, index) => (
+                                        <div 
+                                            key={`${activeBrandId}-${product.name}-${index}`}
+                                            className="animate-fade-in-up"
+                                            style={{ animationDelay: `${index * 80}ms` }}
+                                        >
+                                            <ProductCard product={product} onAddToCart={onAddToCart} />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
 
                 <div className={`text-center text-lg mt-16 text-text-muted font-sans p-6 bg-secondary border border-gray-700 rounded-2xl shadow-lg max-w-4xl mx-auto transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '500ms' }}>
