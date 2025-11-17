@@ -82,15 +82,20 @@ const GiftCertificates: React.FC<GiftCertificatesProps> = ({ onOpenModal }) => {
                                 ))}
                             </div>
                             
-                            <input
-                                id="custom-amount"
-                                type="text"
-                                inputMode="numeric"
-                                placeholder="Другая сумма"
-                                value={customAmount}
-                                onChange={handleCustomAmountChange}
-                                className="w-full p-3 border-2 border-surface rounded-lg shadow-sm focus:outline-none focus:ring-2 bg-primary placeholder:text-text-muted focus:border-accent focus:ring-accent text-lg font-bold text-center"
-                            />
+                            <div className="relative">
+                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted text-lg font-bold pointer-events-none">
+                                    ₽
+                                </span>
+                                <input
+                                    id="custom-amount"
+                                    type="text"
+                                    inputMode="numeric"
+                                    placeholder="Другая сумма"
+                                    value={customAmount}
+                                    onChange={handleCustomAmountChange}
+                                    className="w-full p-3 pl-10 border-2 border-surface rounded-lg shadow-sm focus:outline-none focus:ring-2 bg-primary placeholder:text-text-muted focus:border-accent focus:ring-accent text-lg font-bold text-center"
+                                />
+                            </div>
 
                             <p className="text-xs text-text-muted text-center my-6">
                                 Сертификат действует на все услуги и товары. Все акции и скидки также применяются.

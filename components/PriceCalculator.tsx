@@ -45,6 +45,40 @@ const AccordionItem: React.FC<{
     </div>
 );
 
+const DiscountProgress: React.FC<{ count: number, isFullBody: boolean }> = ({ count, isFullBody }) => {
+    if (count === 0 || isFullBody) {
+        return null;
+    }
+
+    let message = '';
+    let icon = 'fa-tag';
+
+    if (count === 1) {
+        message = 'Выберите еще 1 зону и получите скидку 10%!';
+    } else if (count === 2) {
+        message = 'Скидка 10% применена! Выберите еще 1 зону для скидки 15%.';
+    } else if (count === 3) {
+        message = 'Скидка 15% применена! Выберите еще 1 зону для скидки 20%.';
+    } else if (count === 4) {
+        message = 'Скидка 20% применена! Выберите еще 1 зону для скидки 25%.';
+    } else if (count >= 5) {
+        message = 'Максимальная скидка 25% применена!';
+        icon = 'fa-check-circle';
+    }
+
+    if (!message) return null;
+
+    return (
+        <div className="mt-4 p-3 bg-accent/10 rounded-lg text-center animate-fade-in">
+            <p className="text-accent font-semibold text-sm">
+                <span className={`fas ${icon} mr-2`} aria-hidden="true"></span>
+                {message}
+            </p>
+        </div>
+    );
+};
+
+
 const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
     const [openAccordion, setOpenAccordion] = useState<string | null>(calculatorData[0].id);
     const [selectedZones, setSelectedZones] = useState<Record<string, boolean>>({});
@@ -212,7 +246,7 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
                                     <p className="text-text-muted">Выберите зоны слева...</p>
                                 ) : (
                                     calculation.activeZones.map(zone => (
-                                        <div key={zone.id} className="flex justify-between">
+                                        <div key={zone.id} className="flex justify-between animate-fade-in">
                                             <span>{zone.name}</span>
                                             <span className="font-medium">{zone.price.toLocaleString('ru-RU')}р</span>
                                         </div>
@@ -220,40 +254,47 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
                                 )}
                             </div>
                             <div className="space-y-3">
-                                {calculation.isFullBodyMode ? (
+                                {calculation.count > 0 && (
                                     <>
-                                        <div className="flex justify-between text-lg">
-                                            <span>Полная стоимость:</span>
-                                            <span className="font-bold line-through text-text-muted">{calculation.total.toLocaleString('ru-RU')} р.</span>
-                                        </div>
-                                        <div className="flex justify-between text-lg text-accent">
-                                            <span>Ваша выгода:</span>
-                                            <span className="font-bold">- {calculation.discountAmount.toLocaleString('ru-RU')} р.</span>
-                                        </div>
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className="flex justify-between text-lg">
-                                            <span>Общая сумма:</span>
-                                            <span className="font-bold">{calculation.total.toLocaleString('ru-RU')} р.</span>
-                                        </div>
-                                        <div className="flex justify-between text-lg text-accent">
-                                            <span>Скидка ({calculation.discountPercent}%):</span>
-                                            <span className="font-bold">- {calculation.discountAmount.toLocaleString('ru-RU')} р.</span>
-                                        </div>
+                                        {calculation.isFullBodyMode ? (
+                                            <>
+                                                <div className="flex justify-between text-lg">
+                                                    <span>Полная стоимость:</span>
+                                                    <span className="font-bold line-through text-text-muted">{calculation.total.toLocaleString('ru-RU')} р.</span>
+                                                </div>
+                                                <div className="flex justify-between text-lg text-accent">
+                                                    <span>Ваша выгода:</span>
+                                                    <span className="font-bold">- {calculation.discountAmount.toLocaleString('ru-RU')} р.</span>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="flex justify-between text-lg">
+                                                    <span>Общая сумма:</span>
+                                                    <span className="font-bold">{calculation.total.toLocaleString('ru-RU')} р.</span>
+                                                </div>
+                                                <div className="flex justify-between text-lg text-accent">
+                                                    <span>Скидка ({calculation.discountPercent}%):</span>
+                                                    <span className="font-bold">- {calculation.discountAmount.toLocaleString('ru-RU')} р.</span>
+                                                </div>
+                                            </>
+                                        )}
+                                        {isForMen && (
+                                             <div className="flex justify-between text-lg text-sky-400">
+                                                <span>Наценка для мужчин (30%):</span>
+                                                <span className="font-bold">+ {calculation.surcharge.toLocaleString('ru-RU')} р.</span>
+                                            </div>
+                                        )}
                                     </>
                                 )}
-                                {isForMen && calculation.count > 0 && (
-                                     <div className="flex justify-between text-lg text-sky-400">
-                                        <span>Наценка для мужчин (30%):</span>
-                                        <span className="font-bold">+ {calculation.surcharge.toLocaleString('ru-RU')} р.</span>
-                                    </div>
-                                )}
-                                <hr className="my-3 border-gray-700" />
-                                <div className={`flex justify-between text-3xl font-bold text-accent ${animateTotal ? 'animate-jiggle' : ''}`}>
-                                    <span>ИТОГО:</span>
-                                    <span>{calculation.finalPrice.toLocaleString('ru-RU')} р.</span>
-                                </div>
+                            </div>
+                            
+                            <DiscountProgress count={calculation.count} isFullBody={calculation.isFullBodyMode} />
+
+                            <hr className="my-3 border-gray-700" />
+                            <div className={`flex justify-between text-3xl font-bold text-accent ${animateTotal ? 'animate-jiggle' : ''}`}>
+                                <span>ИТОГО:</span>
+                                <span>{calculation.finalPrice.toLocaleString('ru-RU')} р.</span>
                             </div>
                              <div className="mt-6">
                                 <label className="flex items-center justify-center cursor-pointer p-3 bg-secondary rounded-lg hover:bg-surface transition-colors">
