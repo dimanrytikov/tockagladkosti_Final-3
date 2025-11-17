@@ -12,6 +12,10 @@ interface CartModalProps {
 const CartModal: React.FC<CartModalProps> = ({ items, onClose, onUpdateQuantity, onClearCart }) => {
     const [isVisible, setIsVisible] = useState(false);
     const modalContentRef = useRef<HTMLDivElement>(null);
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [errors, setErrors] = useState<{ name?: string; phone?: string }>({});
+
 
     const handleClose = useCallback(() => {
         setIsVisible(false);
@@ -44,6 +48,31 @@ const CartModal: React.FC<CartModalProps> = ({ items, onClose, onUpdateQuantity,
         };
     }, [handleClose]);
 
+    const handlePhoneInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let input = e.target.value.replace(/\D/g, '');
+        if (input.length > 11) input = input.substring(0, 11);
+
+        if (input.startsWith('7') || input.startsWith('8')) {
+            input = input.slice(1);
+        }
+
+        let formatted = '';
+        if (input.length > 0) {
+            formatted = '+7 (';
+            formatted += input.substring(0, 3);
+        }
+        if (input.length >= 4) {
+            formatted += ') ' + input.substring(3, 6);
+        }
+        if (input.length >= 7) {
+            formatted += '-' + input.substring(6, 8);
+        }
+        if (input.length >= 9) {
+            formatted += '-' + input.substring(8, 10);
+        }
+        setPhone(formatted);
+    };
+
     const services = items.filter(item => item.type === 'service');
     const products = items.filter(item => item.type === 'product');
     
@@ -62,11 +91,23 @@ const CartModal: React.FC<CartModalProps> = ({ items, onClose, onUpdateQuantity,
     
     const subtotal = productsSubtotal + servicesSubtotal;
     const total = subtotal - discount;
+    
+    const validateForm = () => {
+        const newErrors: { name?: string; phone?: string } = {};
+        if (!name.trim()) {
+            newErrors.name = 'Пожалуйста, введите ваше имя.';
+        }
+        if (phone.replace(/\D/g, '').length < 11) {
+            newErrors.phone = 'Введите полный номер телефона.';
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleOrderWhatsApp = () => {
-        if (items.length === 0) return;
+        if (items.length === 0 || !validateForm()) return;
 
-        let message = "🎉 НОВАЯ ЗАЯВКА С САЙТА! 🎉\n\nЗдравствуйте! Хочу оформить заявку:\n";
+        let message = `🎉 НОВАЯ ЗАЯВКА С САЙТА! 🎉\n\nКлиент: ${name}\nТелефон: ${phone}\n\nЗдравствуйте! Хочу оформить заявку:\n`;
         
         if (services.length > 0) {
             const serviceDetails = services.map(item => 
@@ -187,6 +228,36 @@ const CartModal: React.FC<CartModalProps> = ({ items, onClose, onUpdateQuantity,
                             <div className="flex justify-between text-2xl font-bold text-accent pt-2 border-t border-gray-700 mt-2">
                                 <span>ИТОГО:</span>
                                 <span>{total.toLocaleString('ru-RU')} р.</span>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4 mb-6">
+                            <div>
+                                <label htmlFor="cart-user-name" className="block text-sm font-medium text-text-muted mb-1">Ваше имя*</label>
+                                <input
+                                    type="text"
+                                    id="cart-user-name"
+                                    value={name}
+                                    onChange={e => setName(e.target.value)}
+                                    autoComplete="name"
+                                    className={`w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 bg-primary placeholder:text-text-muted ${errors.name ? 'border-red-500 focus:ring-red-500' : 'border-gray-600 focus:border-accent focus:ring-accent'}`}
+                                    required
+                                />
+                                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                            </div>
+                            <div>
+                                <label htmlFor="cart-user-phone" className="block text-sm font-medium text-text-muted mb-1">Ваш телефон*</label>
+                                <input
+                                    type="tel"
+                                    id="cart-user-phone"
+                                    value={phone}
+                                    onChange={handlePhoneInputChange}
+                                    placeholder="+7 (999) 123-45-67"
+                                    autoComplete="tel"
+                                    className={`w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 bg-primary placeholder:text-text-muted ${errors.phone ? 'border-red-500 focus:ring-red-500' : 'border-gray-600 focus:border-accent focus:ring-accent'}`}
+                                    required
+                                />
+                                {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
                             </div>
                         </div>
                         

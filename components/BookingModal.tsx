@@ -66,14 +66,39 @@ export const BookingModal: React.FC<BookingModalProps> = ({ data, onClose }) => 
         }
     }, [date]);
 
+    const handlePhoneInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let input = e.target.value.replace(/\D/g, '');
+        if (input.length > 11) input = input.substring(0, 11);
+
+        if (input.startsWith('7') || input.startsWith('8')) {
+            input = input.slice(1);
+        }
+
+        let formatted = '';
+        if (input.length > 0) {
+            formatted = '+7 (';
+            formatted += input.substring(0, 3);
+        }
+        if (input.length >= 4) {
+            formatted += ') ' + input.substring(3, 6);
+        }
+        if (input.length >= 7) {
+            formatted += '-' + input.substring(6, 8);
+        }
+        if (input.length >= 9) {
+            formatted += '-' + input.substring(8, 10);
+        }
+        setPhone(formatted);
+    };
+
 
     const validateForm = () => {
         const newErrors: { name?: string; phone?: string; dateTime?: string } = {};
         if (!name.trim()) {
             newErrors.name = 'Пожалуйста, введите имя.';
         }
-        if (!phone.trim()) {
-            newErrors.phone = 'Пожалуйста, введите телефон.';
+        if (phone.replace(/\D/g, '').length < 11) {
+            newErrors.phone = 'Пожалуйста, введите полный номер телефона.';
         }
         if (date) {
             const selectedDate = new Date(date + 'T00:00:00');
@@ -151,12 +176,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({ data, onClose }) => 
                         <form className="space-y-4" noValidate>
                             <div>
                                 <label htmlFor="user-name" className="block text-sm font-medium text-text-muted mb-1">Ваше имя*</label>
-                                <input type="text" id="user-name" value={name} onChange={e => setName(e.target.value)} autoFocus className={`w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 bg-primary placeholder:text-text-muted ${errors.name ? 'border-red-500 focus:ring-red-500' : 'border-gray-600 focus:border-accent focus:ring-accent'}`} required />
+                                <input type="text" id="user-name" value={name} onChange={e => setName(e.target.value)} autoFocus className={`w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 bg-primary placeholder:text-text-muted ${errors.name ? 'border-red-500 focus:ring-red-500' : 'border-gray-600 focus:border-accent focus:ring-accent'}`} required autoComplete="name" />
                                 {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
                             </div>
                             <div>
                                 <label htmlFor="user-phone" className="block text-sm font-medium text-text-muted mb-1">Ваш телефон*</label>
-                                <input type="tel" id="user-phone" value={phone} onChange={e => setPhone(e.target.value)} className={`w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 bg-primary placeholder:text-text-muted ${errors.phone ? 'border-red-500 focus:ring-red-500' : 'border-gray-600 focus:border-accent focus:ring-accent'}`} required />
+                                <input type="tel" id="user-phone" value={phone} onChange={handlePhoneInputChange} placeholder="+7 (999) 123-45-67" className={`w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 bg-primary placeholder:text-text-muted ${errors.phone ? 'border-red-500 focus:ring-red-500' : 'border-gray-600 focus:border-accent focus:ring-accent'}`} required autoComplete="tel" />
                                 {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
                             </div>
                             {!isCertificate && (
