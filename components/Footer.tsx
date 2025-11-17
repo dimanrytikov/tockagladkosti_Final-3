@@ -106,7 +106,7 @@ export const Footer: React.FC = () => {
                             {/* Column 2: Embedded Map */}
                             <div className="w-full h-[300px] lg:h-[450px] bg-surface rounded-2xl overflow-hidden shadow-lg">
                                 <iframe
-                                    src="https://yandex.ru/map-widget/v1/-/CLGy5W9H"
+                                    src="https://yandex.ru/maps/-/CLC~UBnk"
                                     width="100%"
                                     height="100%"
                                     frameBorder="0"
