@@ -43,7 +43,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, onAddToCart }) => {
         : 0;
 
     return (
-        <div className="bg-secondary rounded-xl shadow-lg h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/20">
+        <div className="bg-secondary rounded-xl shadow-lg h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/20 active:scale-95 active:brightness-90">
             <div className="p-6 flex flex-col h-full">
                 <h3 className="font-heading text-xl sm:text-2xl font-normal mb-3">{service.category}</h3>
                 <p className="text-lg font-semibold text-text-main mb-4">{service.title}</p>

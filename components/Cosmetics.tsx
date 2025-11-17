@@ -65,7 +65,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
     };
 
     return (
-        <div className={`bg-secondary rounded-xl shadow-lg flex flex-col h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${themeColors.shadow}`}>
+        <div className={`bg-secondary rounded-xl shadow-lg flex flex-col h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${themeColors.shadow} active:scale-95 active:brightness-90`}>
             <div className={`p-5 flex flex-col flex-grow text-text-main`}>
                 <div className="flex-grow">
                     <h4 className={`font-heading text-xl font-bold leading-tight mb-2 ${themeColors.accentText}`}>

@@ -24,24 +24,26 @@ const AccordionItem: React.FC<{
             <span className="font-heading text-lg sm:text-xl">{category.title}</span>
             <span className={`fas fa-chevron-down text-xl transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true"></span>
         </button>
-        {isOpen && (
-            <div id={`panel-${category.id}`} className="animate-fade-in pt-5 pb-2 px-2">
-                <div className="flex flex-wrap gap-3">
-                    {category.zones.map(zone => (
-                        <label key={zone.id} className={`zone-label ${selectedZones[zone.id] ? 'checked' : ''}`}>
-                            <input
-                                type="checkbox"
-                                name="zone"
-                                className="hidden"
-                                checked={!!selectedZones[zone.id]}
-                                onChange={(e) => onZoneChange(zone.id, e.target.checked)}
-                            />
-                            {zone.label}
-                        </label>
-                    ))}
+        <div id={`panel-${category.id}`} className={`accordion-content ${isOpen ? 'open' : ''}`}>
+            <div>
+                 <div className="pt-5 pb-2 px-2">
+                    <div className="flex flex-wrap gap-3">
+                        {category.zones.map(zone => (
+                            <label key={zone.id} className={`zone-label ${selectedZones[zone.id] ? 'checked' : ''}`}>
+                                <input
+                                    type="checkbox"
+                                    name="zone"
+                                    className="hidden"
+                                    checked={!!selectedZones[zone.id]}
+                                    onChange={(e) => onZoneChange(zone.id, e.target.checked)}
+                                />
+                                {zone.label}
+                            </label>
+                        ))}
+                    </div>
                 </div>
             </div>
-        )}
+        </div>
     </div>
 );
 

@@ -46,7 +46,7 @@ const Hero: React.FC = () => {
 
                 <div className="mt-16 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
                     {/* Offer Card 1: Laser Hair Removal */}
-                    <a href="#price-calc" onClick={handleScrollLink} className="flex flex-col p-6 bg-secondary rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/20 animate-fade-in-up [animation-delay:400ms]">
+                    <a href="#price-calc" onClick={handleScrollLink} className="flex flex-col p-6 bg-secondary rounded-xl shadow-lg transition-all duration-300 md:hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/20 active:scale-95 animate-fade-in-up [animation-delay:400ms] animate-subtle-float">
                         <div className="flex items-center mb-3">
                             <span className="fas fa-bolt text-accent text-2xl mr-4 w-8 text-center" aria-hidden="true"></span>
                             <h3 className="font-heading text-xl font-semibold text-text-main">Скидки на Лазер</h3>
@@ -60,7 +60,7 @@ const Hero: React.FC = () => {
                     </a>
 
                     {/* Offer Card 2: Treatment Courses */}
-                    <a href="#services" onClick={handleScrollLink} className="flex flex-col p-6 bg-secondary rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/20 animate-fade-in-up [animation-delay:600ms]">
+                    <a href="#services" onClick={handleScrollLink} className="flex flex-col p-6 bg-secondary rounded-xl shadow-lg transition-all duration-300 md:hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/20 active:scale-95 animate-fade-in-up [animation-delay:600ms] animate-subtle-float">
                         <div className="flex items-center mb-3">
                             <span className="fas fa-spa text-accent text-2xl mr-4 w-8 text-center" aria-hidden="true"></span>
                             <h3 className="font-heading text-xl font-semibold text-text-main">Выгодные Курсы</h3>
@@ -74,7 +74,7 @@ const Hero: React.FC = () => {
                     </a>
                     
                     {/* Offer Card 3: Home Care Products */}
-                    <a href="#cosmetics" onClick={handleScrollLink} className="flex flex-col p-6 bg-secondary rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/20 animate-fade-in-up [animation-delay:800ms]">
+                    <a href="#cosmetics" onClick={handleScrollLink} className="flex flex-col p-6 bg-secondary rounded-xl shadow-lg transition-all duration-300 md:hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/20 active:scale-95 animate-fade-in-up [animation-delay:800ms] animate-subtle-float">
                         <div className="flex items-center mb-3">
                             <span className="fas fa-shopping-bag text-accent text-2xl mr-4 w-8 text-center" aria-hidden="true"></span>
                             <h3 className="font-heading text-xl font-semibold text-text-main">Уход Дома -10%</h3>
