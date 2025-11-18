@@ -189,7 +189,7 @@ export const Cosmetics: React.FC<CosmeticsProps> = ({ onOpenModal, onAddToCart }
                 <div className={`max-w-7xl mx-auto lg:grid lg:grid-cols-4 lg:gap-8 xl:gap-12 transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '300ms' }}>
                     {/* Left Navigation Panel */}
                     <aside className="lg:col-span-1 mb-12 lg:mb-0">
-                        <nav className="lg:sticky lg:top-28 bg-primary p-4 rounded-2xl">
+                        <nav className="lg:sticky lg:top-32 bg-primary p-4 rounded-2xl">
                              <h3 className="font-heading text-xl text-text-main mb-4 px-2">Линии ухода</h3>
                             <ul className="space-y-1">
                                 {activeBrandData?.tabs.map(tab => (

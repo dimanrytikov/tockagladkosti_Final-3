@@ -62,12 +62,12 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal, cartItemCount, onCa
     const NavLinks: React.FC<{mobile?: boolean}> = ({ mobile = false }) => {
         const mobileBaseClass = "transition-colors duration-300 hover:text-accent";
         const mobileClass = `block py-2 text-2xl font-heading ${mobileBaseClass}`;
-        const desktopClass = `nav-link text-base font-medium rounded-lg px-4 py-2 border border-surface transition-all duration-300 hover:bg-accent hover:text-text-on-accent hover:border-accent`;
+        const desktopClass = `nav-link-desktop text-base`;
         
         const linkData = [
-            { href: '#services', text: 'Услуги' },
-            { href: '#cosmetics', text: 'Уход Дома' },
-            { href: '#price-calc', text: 'Комплекс' },
+            { href: '#price-calc', text: 'Эпиляция' },
+            { href: '#services', text: 'SPA & Уходы' },
+            { href: '#cosmetics', text: 'Космецевтика' },
             { href: '#gift-certificates', text: 'Сертификаты' },
             { href: '#contacts', text: 'Контакты' },
         ];
@@ -91,7 +91,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal, cartItemCount, onCa
     return (
         <>
             <header className="fixed top-0 left-0 w-full bg-primary/80 backdrop-blur-md z-50 shadow-lg">
-                <div className="container mx-auto px-4 h-20 flex justify-between items-center">
+                <div className="container mx-auto px-4 h-24 flex justify-between items-center">
                     {/* Logo */}
                     <button onClick={handleLogoClick} className="font-heading text-lg sm:text-xl font-normal text-text-main whitespace-nowrap text-left z-50">
                         <div>
@@ -100,8 +100,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal, cartItemCount, onCa
                         </div>
                     </button>
 
-                    {/* Desktop Centered Navigation */}
-                    <nav className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center space-x-4 text-text-muted">
+                    {/* Desktop Navigation */}
+                    <nav className="hidden lg:flex items-center space-x-8 text-text-muted">
                         <NavLinks />
                     </nav>
 
@@ -138,8 +138,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal, cartItemCount, onCa
                             )}
                         </button>
                         
-                        <button onClick={onOpenModal} className="hidden md:block cta-button px-5 py-2 text-sm">
-                            Записаться
+                        <button onClick={onOpenModal} className="hidden md:block cta-button px-5 py-2 text-sm flex items-center gap-2">
+                            <span className="far fa-calendar-alt" aria-hidden="true"></span>
+                            <span>Записаться</span>
                         </button>
 
                         <button id="menu-toggle" className="lg:hidden text-3xl text-text-main z-50" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Открыть меню" aria-expanded={isMenuOpen}>

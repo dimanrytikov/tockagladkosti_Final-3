@@ -153,9 +153,9 @@ function App() {
                 />
                 <main>
                     <Hero />
+                    <PriceCalculator onOpenModal={handleOpenModal} />
                     <Services onOpenModal={handleOpenModal} onAddToCart={handleAddToCart} />
                     <Cosmetics onOpenModal={handleOpenModal} onAddToCart={handleAddToCart} />
-                    <PriceCalculator onOpenModal={handleOpenModal} />
                     <GiftCertificates onOpenModal={handleOpenModal} />
                     <Footer />
                 </main>

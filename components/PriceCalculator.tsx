@@ -1,89 +1,113 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { calculatorData } from '../constants';
-import { ModalData, CalculatorZone } from '../types';
+import { ModalData, CalculatorZone, CalculatorCategory } from '../types';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 interface PriceCalculatorProps {
     onOpenModal: (data: ModalData) => void;
 }
 
-const AccordionItem: React.FC<{
-    category: typeof calculatorData[0];
-    isOpen: boolean;
-    onToggle: () => void;
+const CategoryCard: React.FC<{
+    category: CalculatorCategory;
     selectedZones: Record<string, boolean>;
     onZoneChange: (zoneId: string, isSelected: boolean) => void;
-}> = ({ category, isOpen, onToggle, selectedZones, onZoneChange }) => (
-    <div>
-        <button
-            className="w-full flex justify-between items-center text-left p-4 sm:p-5 bg-surface hover:bg-gray-700 text-text-main rounded-xl transition-colors duration-200"
-            onClick={onToggle}
-            aria-expanded={isOpen}
-            aria-controls={`panel-${category.id}`}
-        >
-            <span className="font-heading text-lg sm:text-xl">{category.title}</span>
-            <span className={`fas fa-chevron-down text-xl transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true"></span>
-        </button>
-        <div id={`panel-${category.id}`} className={`accordion-content ${isOpen ? 'open' : ''}`}>
-            <div>
-                 <div className="pt-5 pb-2 px-2">
-                    <div className="flex flex-wrap gap-3">
-                        {category.zones.map(zone => (
-                            <label key={zone.id} className={`zone-label ${selectedZones[zone.id] ? 'checked' : ''} ${selectedZones['full-body'] && zone.id !== 'full-body' ? 'disabled:opacity-60 disabled:cursor-not-allowed' : ''}`}>
-                                <input
-                                    type="checkbox"
-                                    name="zone"
-                                    className="hidden"
-                                    checked={!!selectedZones[zone.id]}
-                                    onChange={(e) => onZoneChange(zone.id, e.target.checked)}
-                                    disabled={!!selectedZones['full-body'] && zone.id !== 'full-body'}
-                                />
-                                {zone.label}
-                            </label>
-                        ))}
+    isFullBodySelected: boolean;
+}> = ({ category, selectedZones, onZoneChange, isFullBodySelected }) => {
+    const isSpecialPackage = category.id === 'full-package';
+
+    if (isSpecialPackage) {
+        const isSelected = selectedZones[category.zones[0].id];
+        return (
+            <div className="md:col-span-2">
+                <label className={`relative block p-5 bg-secondary rounded-2xl cursor-pointer transition-all duration-300 border-2 ${isSelected ? 'border-accent shadow-lg shadow-accent/20 scale-[1.02]' : 'border-transparent hover:border-accent/50'}`}>
+                    <div className="absolute top-2 right-2 bg-accent text-text-on-accent text-xs font-bold px-3 py-1 rounded-full animate-pulse-glow">Хит Продаж</div>
+                    <div className="flex items-center gap-4">
+                        <span className={`${category.icon} text-3xl text-accent`}></span>
+                        <div>
+                            <h3 className="font-heading text-xl text-text-main">{category.zones[0].name}</h3>
+                            <p className="text-sm text-text-muted">Получите максимальную выгоду на комплекс!</p>
+                        </div>
                     </div>
-                </div>
+                    <input
+                        type="checkbox"
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        checked={isSelected}
+                        onChange={(e) => onZoneChange(category.zones[0].id, e.target.checked)}
+                    />
+                </label>
             </div>
-        </div>
-    </div>
-);
-
-const DiscountProgress: React.FC<{ count: number, isFullBody: boolean }> = ({ count, isFullBody }) => {
-    if (count === 0 || isFullBody) {
-        return null;
+        );
     }
-
-    let message = '';
-    let icon = 'fa-tag';
-
-    if (count === 1) {
-        message = 'Выберите еще 1 зону и получите скидку 10%!';
-    } else if (count === 2) {
-        message = 'Скидка 10% применена! Выберите еще 1 зону для скидки 15%.';
-    } else if (count === 3) {
-        message = 'Скидка 15% применена! Выберите еще 1 зону для скидки 20%.';
-    } else if (count === 4) {
-        message = 'Скидка 20% применена! Выберите еще 1 зону для скидки 25%.';
-    } else if (count >= 5) {
-        message = 'Максимальная скидка 25% применена!';
-        icon = 'fa-check-circle';
-    }
-
-    if (!message) return null;
 
     return (
-        <div className="mt-4 p-3 bg-accent/10 rounded-lg text-center animate-fade-in">
-            <p className="text-accent font-semibold text-sm">
-                <span className={`fas ${icon} mr-2`} aria-hidden="true"></span>
-                {message}
-            </p>
+        <div className="bg-secondary p-5 rounded-2xl h-full">
+            <div className="flex items-center gap-3 mb-4">
+                <span className={`${category.icon} text-2xl text-accent w-8 text-center`}></span>
+                <h3 className="font-heading text-xl text-text-main">{category.title}</h3>
+            </div>
+            <div className="flex flex-wrap gap-2.5">
+                {category.zones.map(zone => (
+                    <label key={zone.id} className={`zone-label ${selectedZones[zone.id] ? 'checked' : ''} ${isFullBodySelected ? 'disabled:opacity-50 disabled:cursor-not-allowed' : ''}`}>
+                        <input
+                            type="checkbox"
+                            name="zone"
+                            className="hidden"
+                            checked={!!selectedZones[zone.id]}
+                            onChange={(e) => onZoneChange(zone.id, e.target.checked)}
+                            disabled={isFullBodySelected}
+                        />
+                        {zone.name} <span className="text-xs opacity-70 ml-1">({zone.price}р)</span>
+                    </label>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const DiscountMeter: React.FC<{ count: number }> = ({ count }) => {
+    const steps = [
+        { threshold: 2, discount: 10, label: '10%' },
+        { threshold: 3, discount: 15, label: '15%' },
+        { threshold: 4, discount: 20, label: '20%' },
+        { threshold: 5, discount: 25, label: '25%' },
+    ];
+
+    const currentStepIndex = steps.findIndex(step => count < step.threshold);
+    const progressPercent = count > 0 ? (count / 5) * 100 : 0;
+    
+    let message = 'Выберите зоны для скидки';
+    if (count === 1) message = 'Выберите еще 1 зону для скидки 10%';
+    else if (count >= 2 && currentStepIndex !== -1) message = `+1 зона до скидки ${steps[currentStepIndex].discount}%`;
+    else if (count >= 5) message = 'Максимальная скидка 25% получена!';
+
+    return (
+        <div className="my-5 p-4 bg-surface rounded-xl">
+            <div className="flex justify-between items-center text-xs font-bold text-text-muted mb-2">
+                <span>Ваш прогресс по скидке:</span>
+                <span className="text-accent">{message}</span>
+            </div>
+            <div className="w-full bg-primary rounded-full h-3.5 overflow-hidden relative">
+                <div className="absolute inset-0 flex justify-around">
+                    {steps.map((step, i) => (
+                        <div key={i} className={`h-full ${i > 0 ? 'border-l-2 border-primary' : ''}`} style={{ width: '20%' }}></div>
+                    ))}
+                </div>
+                <div 
+                    className="bg-gradient-to-r from-accent/50 to-accent h-full rounded-full transition-all duration-500 ease-out" 
+                    style={{ width: `${Math.min(progressPercent, 100)}%` }}
+                ></div>
+            </div>
+            <div className="flex justify-between mt-1.5 text-xs font-bold text-text-muted">
+                {steps.map(step => (
+                     <span key={step.discount} className={`${count >= step.threshold ? 'text-accent' : ''}`}>{step.label}</span>
+                ))}
+            </div>
         </div>
     );
 };
 
 
 const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
-    const [openAccordion, setOpenAccordion] = useState<string | null>(calculatorData[0].id);
     const [selectedZones, setSelectedZones] = useState<Record<string, boolean>>({});
     const [isForMen, setIsForMen] = useState(false);
     const [animateTotal, setAnimateTotal] = useState(false);
@@ -94,30 +118,12 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
 
     const handleZoneChange = (zoneId: string, isSelected: boolean) => {
         if (zoneId === 'full-body') {
-            if (isSelected) {
-                const newSelection: Record<string, boolean> = { 'full-body': true };
-                // Also select all other zones for visual feedback
-                allZones.forEach(zone => {
-                    if (zone.id !== 'full-body') {
-                        newSelection[zone.id] = true;
-                    }
-                });
-                setSelectedZones(newSelection);
-            } else {
-                setSelectedZones({}); // Deselect everything
-            }
+            setSelectedZones(isSelected ? { 'full-body': true } : {});
         } else {
              setSelectedZones(prev => {
                 const newSelection = { ...prev, [zoneId]: isSelected };
-                // If another zone is changed, unselect 'full-body'
                 if (newSelection['full-body']) {
                     delete newSelection['full-body'];
-                    // And deselect all other zones that were auto-selected
-                    allZones.forEach(zone => {
-                        if (zone.id !== zoneId) {
-                           delete newSelection[zone.id];
-                        }
-                    });
                 }
                 return newSelection;
             });
@@ -127,7 +133,7 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
     const calculation = useMemo(() => {
         const isFullBodySelected = !!selectedZones['full-body'];
         let basePrice = 0;
-        let details = {
+        const details = {
             isFullBodyMode: false,
             activeZones: [] as CalculatorZone[],
             total: 0,
@@ -137,7 +143,6 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
         };
 
         if (isFullBodySelected && fullBodyZone) {
-            // Define the zones that constitute the "full body" package for accurate calculation.
             const fullBodyComponentIds = [
                 'full-face', 'armpits', 'bikini-deep', 'stomach-full', 
                 'buttocks', 'chest-full', 'back-full', 'neck-full', 
@@ -148,39 +153,26 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
                 .reduce((sum, zone) => sum + zone.price, 0);
 
             basePrice = fullBodyZone.price;
-            const discountAmount = totalIndividualPrice - basePrice;
-            // The user requested to explicitly show 35% discount for the "Full Body" package.
-            const discountPercent = 35; // Hardcoded to avoid rounding issues and match the requirement.
+            details.discountAmount = totalIndividualPrice - basePrice;
+            details.discountPercent = 35;
+            
+            details.isFullBodyMode = true;
+            details.activeZones = [fullBodyZone];
+            details.total = totalIndividualPrice;
+            details.count = 1;
 
-            details = {
-                isFullBodyMode: true,
-                activeZones: [fullBodyZone],
-                total: totalIndividualPrice,
-                count: 1, // Treat as a single complex item
-                discountPercent: discountPercent,
-                discountAmount: discountAmount,
-            };
         } else {
-            const activeZones = allZones.filter(zone => selectedZones[zone.id] && zone.id !== 'full-body');
-            const total = activeZones.reduce((sum, zone) => sum + zone.price, 0);
-            const count = activeZones.length;
+            details.activeZones = allZones.filter(zone => selectedZones[zone.id] && zone.id !== 'full-body');
+            details.total = details.activeZones.reduce((sum, zone) => sum + zone.price, 0);
+            details.count = details.activeZones.length;
             
-            let discountPercent = 0;
-            if (count === 2) discountPercent = 10;
-            else if (count === 3) discountPercent = 15;
-            else if (count === 4) discountPercent = 20;
-            else if (count >= 5) discountPercent = 25;
+            if (details.count === 2) details.discountPercent = 10;
+            else if (details.count === 3) details.discountPercent = 15;
+            else if (details.count === 4) details.discountPercent = 20;
+            else if (details.count >= 5) details.discountPercent = 25;
             
-            const discountAmount = Math.floor(total * (discountPercent / 100));
-            basePrice = total - discountAmount;
-            details = { 
-                isFullBodyMode: false,
-                activeZones, 
-                total, 
-                count, 
-                discountPercent, 
-                discountAmount, 
-            };
+            details.discountAmount = Math.floor(details.total * (details.discountPercent / 100));
+            basePrice = details.total - details.discountAmount;
         }
 
         const surcharge = isForMen ? Math.ceil(basePrice * 0.3) : 0;
@@ -190,45 +182,30 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
     }, [selectedZones, isForMen, allZones, fullBodyZone]);
 
     useEffect(() => {
-        // Only animate if the price is not 0 and has changed from the previous render.
         if (calculation.finalPrice > 0 && calculation.finalPrice !== priceRef.current) {
             setAnimateTotal(true);
-            const timer = setTimeout(() => setAnimateTotal(false), 500); // Animation duration
+            const timer = setTimeout(() => setAnimateTotal(false), 500);
             priceRef.current = calculation.finalPrice;
             return () => clearTimeout(timer);
         }
-        // If price goes to 0, just update the ref without animating
         if (calculation.finalPrice === 0) {
              priceRef.current = 0;
         }
     }, [calculation.finalPrice]);
 
     const handleBookComplex = () => {
-        if (calculation.count === 0 && !calculation.isFullBodyMode) return;
+        if (calculation.count === 0) return;
         
-        let serviceName: string;
-        if (calculation.isFullBodyMode) {
-            serviceName = "Комплекс 'Всё тело'";
-        } else {
-            const zoneCount = calculation.count;
-            let zoneCountText;
-            if (zoneCount === 1) zoneCountText = 'зона';
-            else if (zoneCount > 1 && zoneCount < 5) zoneCountText = 'зоны';
-            else zoneCountText = 'зон';
-            serviceName = `Комплекс (${zoneCount} ${zoneCountText})`;
-        }
+        const serviceName = calculation.isFullBodyMode
+            ? "Комплекс 'Всё тело'"
+            : `Комплекс (${calculation.count} ${calculation.count === 1 ? 'зона' : (calculation.count > 1 && calculation.count < 5 ? 'зоны' : 'зон')})`;
 
-        if (isForMen) {
-            serviceName += " (мужской)";
-        }
-        
         const activeZoneNames = calculation.isFullBodyMode 
-            ? ["Все зоны включены"] 
+            ? ["Все ключевые зоны включены"] 
             : calculation.activeZones.map(z => z.name);
 
-
         onOpenModal({
-            name: serviceName,
+            name: `${serviceName}${isForMen ? " (мужской)" : ""}`,
             price: calculation.finalPrice,
             isComplex: true,
             zones: activeZoneNames
@@ -241,69 +218,60 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
     return (
         <section id="price-calc" ref={sectionRef} className="py-16 sm:py-24 bg-secondary">
             <div className="container mx-auto px-4">
-                 <div className={`transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                <div className={`transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                     <h2 className="font-heading text-4xl sm:text-5xl font-normal text-center mb-4">Ваш Идеальный Комплекс</h2>
                     <p className="text-lg text-center text-text-muted font-sans mb-12 max-w-2xl mx-auto">Выберите от двух зон и получите скидку до 25%. Калькулятор поможет рассчитать финальную стоимость.</p>
                 </div>
                 
                 <div className="grid lg:grid-cols-3 gap-8 lg:gap-12 max-w-7xl mx-auto">
                     <div className={`lg:col-span-2 bg-primary p-4 sm:p-6 rounded-2xl shadow-lg transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '200ms' }}>
-                        <div className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {calculatorData.map(category => (
-                                <AccordionItem
+                                <CategoryCard
                                     key={category.id}
                                     category={category}
-                                    isOpen={openAccordion === category.id}
-                                    onToggle={() => setOpenAccordion(openAccordion === category.id ? null : category.id)}
                                     selectedZones={selectedZones}
                                     onZoneChange={handleZoneChange}
+                                    isFullBodySelected={!!selectedZones['full-body']}
                                 />
                             ))}
                         </div>
                     </div>
                     <div className={`lg:col-span-1 transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '300ms' }}>
-                        <div className="sticky top-28 bg-primary p-6 rounded-2xl shadow-lg text-text-main font-sans">
-                            <h3 className="font-heading text-2xl font-normal text-text-main mb-4">Ваш Комплекс:</h3>
-                            <div className="min-h-[100px] border-b border-gray-700 pb-4 mb-4 text-text-main">
+                        <div className="sticky top-32 bg-primary p-6 rounded-2xl shadow-lg text-text-main font-sans">
+                            <h3 className="font-heading text-2xl font-normal text-text-main mb-4">Расчетный лист:</h3>
+                            <div className="min-h-[120px] max-h-48 overflow-y-auto border-b border-gray-700 pb-4 mb-4 pr-2">
                                 {calculation.count === 0 ? (
-                                    <p className="text-text-muted">Выберите зоны слева...</p>
+                                    <p className="text-text-muted pt-8 text-center">Выберите зоны для расчета...</p>
                                 ) : (
-                                    calculation.activeZones.map(zone => (
-                                        <div key={zone.id} className="flex justify-between animate-fade-in">
+                                    <div className="space-y-1">
+                                    {calculation.activeZones.map(zone => (
+                                        <div key={zone.id} className="flex justify-between animate-fade-in text-sm">
                                             <span>{zone.name}</span>
                                             <span className="font-medium">{zone.price.toLocaleString('ru-RU')}р</span>
                                         </div>
-                                    ))
+                                    ))}
+                                    </div>
                                 )}
                             </div>
-                            <div className="space-y-3">
+                            
+                            {!calculation.isFullBodyMode && <DiscountMeter count={calculation.count} />}
+
+                            <div className="space-y-2 mt-4 text-sm">
                                 {calculation.count > 0 && (
                                     <>
-                                        {calculation.isFullBodyMode ? (
-                                            <>
-                                                <div className="flex justify-between text-lg">
-                                                    <span>Сумма зон по-отдельности:</span>
-                                                    <span className="font-bold line-through text-text-muted">{calculation.total.toLocaleString('ru-RU')} р.</span>
-                                                </div>
-                                                <div className="flex justify-between text-lg text-green-400">
-                                                    <span>Ваша выгода ({calculation.discountPercent}%):</span>
-                                                    <span className="font-bold">- {calculation.discountAmount.toLocaleString('ru-RU')} р.</span>
-                                                </div>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <div className="flex justify-between text-lg">
-                                                    <span>Общая сумма:</span>
-                                                    <span className="font-bold">{calculation.total.toLocaleString('ru-RU')} р.</span>
-                                                </div>
-                                                <div className="flex justify-between text-lg text-accent">
-                                                    <span>Скидка ({calculation.discountPercent}%):</span>
-                                                    <span className="font-bold">- {calculation.discountAmount.toLocaleString('ru-RU')} р.</span>
-                                                </div>
-                                            </>
-                                        )}
+                                        <div className="flex justify-between">
+                                            <span>Сумма:</span>
+                                            <span className={`font-bold ${calculation.discountAmount > 0 ? 'line-through text-text-muted' : ''}`}>{calculation.total.toLocaleString('ru-RU')} р.</span>
+                                        </div>
+                                        {calculation.discountAmount > 0 &&
+                                            <div className="flex justify-between text-accent">
+                                                <span>Скидка ({calculation.discountPercent}%):</span>
+                                                <span className="font-bold">- {calculation.discountAmount.toLocaleString('ru-RU')} р.</span>
+                                            </div>
+                                        }
                                         {isForMen && (
-                                             <div className="flex justify-between text-lg text-sky-400">
+                                             <div className="flex justify-between text-sky-400">
                                                 <span>Наценка для мужчин (30%):</span>
                                                 <span className="font-bold">+ {calculation.surcharge.toLocaleString('ru-RU')} р.</span>
                                             </div>
@@ -311,15 +279,14 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
                                     </>
                                 )}
                             </div>
-                            
-                            <DiscountProgress count={calculation.count} isFullBody={calculation.isFullBodyMode} />
 
                             <hr className="my-3 border-gray-700" />
-                            <div className={`flex justify-between text-3xl font-bold text-accent ${animateTotal ? 'animate-jiggle' : ''}`}>
+                            <div className={`flex justify-between items-center text-2xl font-bold text-accent ${animateTotal ? 'animate-jiggle' : ''}`}>
                                 <span>ИТОГО:</span>
-                                <span>{calculation.finalPrice.toLocaleString('ru-RU')} р.</span>
+                                <span className="text-3xl">{calculation.finalPrice.toLocaleString('ru-RU')} р.</span>
                             </div>
-                             <div className="mt-6">
+
+                             <div className="mt-5">
                                 <label className="flex items-center justify-center cursor-pointer p-3 bg-secondary rounded-lg hover:bg-surface transition-colors">
                                     <input 
                                         type="checkbox" 
@@ -327,21 +294,22 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ onOpenModal }) => {
                                         onChange={() => setIsForMen(!isForMen)} 
                                         className="h-5 w-5 rounded border-gray-300 text-accent focus:ring-accent bg-transparent" 
                                     />
-                                    <span className="ml-3 text-text-main font-semibold">Мужская эпиляция (+30%)</span>
+                                    <span className="ml-3 text-text-main font-semibold text-sm">Мужская эпиляция (+30%)</span>
                                 </label>
                             </div>
                             <button
                                 onClick={handleBookComplex}
-                                disabled={calculation.count === 0 && !calculation.isFullBodyMode}
-                                className={`w-full mt-6 cta-button px-10 py-4 text-lg ${(calculation.count === 0 && !calculation.isFullBodyMode) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                disabled={calculation.count === 0}
+                                className={`w-full mt-4 cta-button px-10 py-3 text-base ${calculation.count === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                             >
                                 Записаться на комплекс
                             </button>
                         </div>
                     </div>
                 </div>
-                <div className={`text-center text-text-muted mt-12 space-y-2 font-sans max-w-2xl mx-auto transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '400ms' }}>
-                    <p className="text-lg"><strong className="text-text-main">2 зоны:</strong> скидка 10% | <strong className="text-text-main">3 зоны:</strong> скидка 15% | <strong className="text-text-main">4 зоны:</strong> скидка 20% | <strong className="text-text-main">5+ зон:</strong> скидка 25%</p>
+                 <div className={`text-center text-text-muted mt-12 space-y-2 font-sans max-w-3xl mx-auto transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '400ms' }}>
+                    <p className="text-base"><strong className="text-text-main">Скидка 40%</strong> на ПЕРВЫЙ визит на любую зону или комплекс!</p>
+                    <p className="text-sm">А также: <strong className="text-text-main">2 зоны:</strong> 10% | <strong className="text-text-main">3 зоны:</strong> 15% | <strong className="text-text-main">4 зоны:</strong> 20% | <strong className="text-text-main">5+ зон:</strong> 25%</p>
                 </div>
             </div>
         </section>

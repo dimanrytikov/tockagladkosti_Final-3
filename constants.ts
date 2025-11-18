@@ -1,4 +1,4 @@
-import { Service, CalculatorCategory, CosmeticsBrandData } from './types';
+import { Service, CalculatorCategory, CosmeticsBrandData, ServiceCategory } from './types';
 
 export const CONTACT_PHONE = '79501298325';
 export const CONTACT_PHONE_DISPLAY = '+7 950 129 83 25';
@@ -10,14 +10,30 @@ export const SOCIAL_LINKS = {
     gis: 'https://go.2gis.com/lYpPW',
 };
 
-export const servicesData: Service[] = [
-    { id: 'lifting', category: '"Лифтинг и Релакс"', title: 'Массаж лица (Комплекс техник)', description: 'Сеанс естественного лифтинга. Снимает напряжение, подтягивает овал, убирает отеки и дарит глубокое расслабление.', price: 3000, duration: '70 мин', buttonText: 'Записаться на Массаж' },
-    { id: 'massage-mask', category: '"Премиум-релакс"', title: 'Массажный уход с маской', description: 'Сочетание массажа с активной маской по типу кожи. Двойной эффект: лифтинг и интенсивное питание.', price: 4000, duration: '100 мин', buttonText: 'Записаться на Уход' },
-    { id: 'wow-effect', category: '"WOW-эффект на выход"', title: 'Экспресс-уход "Голливудское сияние"', description: 'Моментально выравнивает тон и дарит упругость. Включает индивидуальный пилинг и карбокситерапию.', price: 3500, duration: '70 мин', buttonText: 'Записаться на "Сияние"' },
-    { id: 'express-clean', category: '"Быстрый Перезапуск"', title: 'Экспресс-чистка "Чистая кожа за час"', description: 'Идеально, если нет времени на полную процедуру. Быстрое, но тщательное очищение пор и удаление поверхностных загрязнений.', price: 3000, duration: '70 мин', buttonText: 'Записаться на Экспресс' },
-    { id: 'detox', category: '"Total-Detox и Чистка"', title: 'Глубокая чистка (Комбинированная)', description: 'Глубокая детоксикация. Включает маски, пилинг, мануальную и аппаратную (УЗ) чистку, и успокаивающую маску.', price: 4500, duration: '90-120 мин', buttonText: 'Записаться на "Чистку"' },
-    { id: 'premium', category: '"Эксклюзивный SPA-уход"', title: 'SPA-уход "Тотальное Преображение"', description: 'Бестселлер. Включает массаж лица, шеи и декольте, глубокое очищение, пилинги и альгинатную маску.', price: 5000, duration: '120 мин', buttonText: 'Записаться на SPA' },
-    { id: 'rejuvenation', category: '"Омоложение без уколов"', title: 'Лазерная биоревитализация', description: 'Безинъекционный "укол" молодости. Лазер глубоко вводит гиалуроновую кислоту, устраняя сухость и мелкие морщинки.', price: 3000, duration: '60 мин', buttonText: 'Записаться на "Омоложение"' },
+export const servicesData: ServiceCategory[] = [
+    {
+        id: 'massage-spa',
+        title: 'Массажи и SPA-уходы',
+        icon: 'fas fa-spa',
+        description: 'Процедуры, направленные на глубокое расслабление, лифтинг и питание кожи. Идеальное сочетание эффективности и релаксации.',
+        services: [
+            { id: 'lifting', category: '"Лифтинг и Релакс"', title: 'Массаж лица (Комплекс техник)', description: 'Сеанс естественного лифтинга. Снимает напряжение, подтягивает овал, убирает отеки и дарит глубокое расслабление.', price: 3000, duration: '70 мин', buttonText: 'Записаться на Массаж' },
+            { id: 'massage-mask', category: '"Премиум-релакс"', title: 'Массажный уход с маской', description: 'Сочетание массажа с активной маской по типу кожи. Двойной эффект: лифтинг и интенсивное питание.', price: 4000, duration: '100 мин', buttonText: 'Записаться на Уход' },
+            { id: 'rejuvenation', category: '"Омоложение без уколов"', title: 'Лазерная биоревитализация', description: 'Безинъекционный "укол" молодости. Лазер глубоко вводит гиалуроновую кислоту, устраняя сухость и мелкие морщинки.', price: 3000, duration: '60 мин', buttonText: 'Записаться на "Омоложение"' },
+            { id: 'wow-effect', category: '"WOW-эффект на выход"', title: 'Экспресс-уход "Голливудское сияние"', description: 'Моментально выравнивает тон и дарит упругость. Включает индивидуальный пилинг и карбокситерапию.', price: 3500, duration: '70 мин', buttonText: 'Записаться на "Сияние"' },
+        ]
+    },
+    {
+        id: 'cleansing-express',
+        title: 'Чистки и Экспресс-уходы',
+        icon: 'fas fa-spray-can-sparkles',
+        description: 'Процедуры для быстрого преображения, глубокого очищения пор и придания коже сияния. Эффективные решения для безупречного вида.',
+        services: [
+            { id: 'express-clean', category: '"Быстрый Перезапуск"', title: 'Экспресс-чистка "Чистая кожа за час"', description: 'Идеально, если нет времени на полную процедуру. Быстрое, но тщательное очищение пор и удаление поверхностных загрязнений.', price: 3000, duration: '70 мин', buttonText: 'Записаться на Экспресс' },
+            { id: 'detox', category: '"Total-Detox и Чистка"', title: 'Глубокая чистка (Комбинированная)', description: 'Глубокая детоксикация. Включает маски, пилинг, мануальную и аппаратную (УЗ) чистку, и успокаивающую маску.', price: 4500, duration: '90-120 мин', buttonText: 'Записаться на "Чистку"' },
+            { id: 'premium', category: '"Эксклюзивный SPA-уход"', title: 'SPA-уход "Тотальное Преображение"', description: 'Бестселлер. Включает массаж лица, шеи и декольте, глубокое очищение, пилинги и альгинатную маску.', price: 5000, duration: '120 мин', buttonText: 'Записаться на SPA' },
+        ]
+    }
 ];
 
 export const cosmeticsData: CosmeticsBrandData[] = [
@@ -211,7 +227,7 @@ export const cosmeticsData: CosmeticsBrandData[] = [
 
 export const calculatorData: CalculatorCategory[] = [
     {
-        id: 'face', title: 'Лицо', zones: [
+        id: 'face', title: 'Лицо', icon: 'fas fa-smile', zones: [
             { id: 'upper-lip', name: 'Верхняя губа', price: 500, label: 'Верхняя губа (500р)' },
             { id: 'chin', name: 'Подбородок', price: 500, label: 'Подбородок (500р)' },
             { id: 'glabella', name: 'Межбровье', price: 400, label: 'Межбровье (400р)' },
@@ -221,7 +237,7 @@ export const calculatorData: CalculatorCategory[] = [
         ]
     },
     {
-        id: 'body', title: 'Тело (Бикини, Живот, Спина)', zones: [
+        id: 'body', title: 'Тело', icon: 'fas fa-child-reaching', zones: [
             { id: 'armpits', name: 'Подмышечные впадины', price: 800, label: 'Подмышки (800р)' },
             { id: 'bikini-classic', name: 'Бикини (классика)', price: 1000, label: 'Бикини (классика) (1000р)' },
             { id: 'bikini-deep', name: 'Бикини (глубокое)', price: 1800, label: 'Бикини (глубокое) (1800р)' },
@@ -236,7 +252,7 @@ export const calculatorData: CalculatorCategory[] = [
         ]
     },
     {
-        id: 'arms', title: 'Руки', zones: [
+        id: 'arms', title: 'Руки', icon: 'fas fa-hand-sparkles', zones: [
             { id: 'arms-lower', name: 'Руки до локтя', price: 1100, label: 'Руки до локтя (1100р)' },
             { id: 'arms-upper', name: 'Руки выше локтя', price: 1100, label: 'Руки выше локтя (1100р)' },
             { id: 'hands', name: 'Кисти рук (с пальцами)', price: 500, label: 'Кисти + пальцы (500р)' },
@@ -244,7 +260,7 @@ export const calculatorData: CalculatorCategory[] = [
         ]
     },
     {
-        id: 'legs', title: 'Ноги', zones: [
+        id: 'legs', title: 'Ноги', icon: 'fas fa-shoe-prints', zones: [
             { id: 'lower-legs', name: 'Голени (с коленями)', price: 1600, label: 'Голени (с коленями) (1600р)' },
             { id: 'thighs', name: 'Бёдра', price: 1800, label: 'Бёдра (1800р)' },
             { id: 'feet', name: 'Стопы (с пальцами)', price: 500, label: 'Стопы + пальцы (500р)' },
@@ -252,7 +268,7 @@ export const calculatorData: CalculatorCategory[] = [
         ]
     },
     {
-        id: 'full-package', title: 'Специальный Комплекс', zones: [
+        id: 'full-package', title: 'Хит Продаж', icon: 'fas fa-star', zones: [
              { id: 'full-body', name: 'Всё тело', price: 9295, label: 'Всё тело (9295р)' },
         ]
     }

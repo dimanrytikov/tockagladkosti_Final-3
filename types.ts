@@ -1,4 +1,5 @@
 
+
 export interface Service {
     id: string;
     category: string;
@@ -7,6 +8,14 @@ export interface Service {
     price: number;
     duration: string;
     buttonText: string;
+}
+
+export interface ServiceCategory {
+    id: string;
+    title: string;
+    icon: string;
+    description: string;
+    services: Service[];
 }
 
 export interface CosmeticProduct {
@@ -32,7 +41,7 @@ export interface CosmeticTab {
 }
 
 export interface CosmeticsBrandData {
-    id: string;
+    id:string;
     name: string;
     tagline: string;
     tabs: CosmeticTab[];
@@ -48,6 +57,7 @@ export interface CalculatorZone {
 export interface CalculatorCategory {
     id:string;
     title: string;
+    icon?: string;
     zones: CalculatorZone[];
 }
 

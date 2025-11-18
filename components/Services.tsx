@@ -119,14 +119,23 @@ interface ServicesProps {
 
 const Services: React.FC<ServicesProps> = ({ onOpenModal, onAddToCart }) => {
     const sectionRef = useRef<HTMLElement>(null);
-    const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.1 });
+    const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.05 });
+    const [activeCategoryId, setActiveCategoryId] = useState(servicesData[0].id);
+    const [contentKey, setContentKey] = useState(0);
+
+    const handleCategoryClick = (categoryId: string) => {
+        setActiveCategoryId(categoryId);
+        setContentKey(prev => prev + 1); // Trigger animation
+    }
+
+    const activeCategoryData = servicesData.find(cat => cat.id === activeCategoryId);
 
     return (
         <section id="services" ref={sectionRef} className="py-16 sm:py-24 bg-primary">
             <div className="container mx-auto px-4">
                 <div className={`transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                     <h2 className="font-heading text-4xl sm:text-5xl font-normal text-center mb-4">Архитектура Вашей Молодости</h2>
-                    <p className="text-lg text-center text-text-muted font-sans mb-12 max-w-2xl mx-auto">Выберите услугу или курс и добавьте в корзину для оформления заявки.</p>
+                    <p className="text-lg text-center text-text-muted font-sans mb-12 max-w-3xl mx-auto">Выберите направление, чтобы ознакомиться с услугами, или добавьте курс в корзину для оформления заявки.</p>
                 </div>
 
                 <div className={`max-w-4xl mx-auto mb-16 p-6 bg-secondary rounded-2xl border border-accent/50 shadow-lg text-center transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '200ms' }}>
@@ -138,16 +147,53 @@ const Services: React.FC<ServicesProps> = ({ onOpenModal, onAddToCart }) => {
                     </p>
                 </div>
                 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                    {servicesData.map((service, index) => (
-                         <div 
-                            key={service.id}
-                            className={`transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-                            style={{ transitionDelay: `${index * 150 + 300}ms` }}
-                        >
-                            <ServiceCard service={service} onAddToCart={onAddToCart} />
-                        </div>
-                    ))}
+                <div className={`max-w-7xl mx-auto lg:grid lg:grid-cols-4 lg:gap-8 xl:gap-12 transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '300ms' }}>
+                    {/* Left Navigation Panel */}
+                    <aside className="lg:col-span-1 mb-12 lg:mb-0">
+                        <nav className="lg:sticky lg:top-32 bg-secondary p-4 rounded-2xl">
+                             <h3 className="font-heading text-xl text-text-main mb-4 px-2">Направления</h3>
+                            <ul className="space-y-1">
+                                {servicesData.map(category => (
+                                    <li key={category.id}>
+                                        <button
+                                            onClick={() => handleCategoryClick(category.id)}
+                                            className={`w-full text-left flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition-all duration-200 ease-in-out transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary focus:ring-accent/80 hover:bg-surface ${
+                                                activeCategoryId === category.id
+                                                    ? 'bg-accent text-text-on-accent shadow-md'
+                                                    : 'text-text-muted hover:text-accent'
+                                            }`}
+                                        >
+                                            {category.icon && <span className={`${category.icon} w-5 text-center text-lg`}></span>}
+                                            <span className="flex-grow">{category.title}</span>
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </nav>
+                    </aside>
+
+                    {/* Right Content Panel */}
+                    <div className="lg:col-span-3">
+                        {activeCategoryData && (
+                             <div key={contentKey} className="animate-fade-in">
+                                <div className="text-center lg:text-left mb-10 max-w-3xl mx-auto lg:mx-0">
+                                    <h3 className="font-heading text-2xl sm:text-3xl font-normal mb-3">{activeCategoryData.title}</h3>
+                                    <p className="text-text-muted text-base">{activeCategoryData.description}</p>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6 font-sans">
+                                    {activeCategoryData.services.map((service, index) => (
+                                        <div 
+                                            key={`${activeCategoryId}-${service.id}-${index}`}
+                                            className="animate-fade-in-up"
+                                            style={{ animationDelay: `${index * 100}ms` }}
+                                        >
+                                            <ServiceCard service={service} onAddToCart={onAddToCart} />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </section>

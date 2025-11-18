@@ -107,8 +107,20 @@
             .back-to-top-button {
                 @apply fixed bottom-6 right-4 lg:bottom-8 lg:right-8 bg-accent/90 text-text-on-accent w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 ease-in-out hover:bg-accent hover:scale-110 z-40;
             }
-            .nav-link.active {
-                @apply bg-accent text-text-on-accent border-accent;
+            .nav-link-desktop {
+                @apply relative font-medium text-text-muted transition-colors duration-300 hover:text-accent py-2;
+            }
+            .nav-link-desktop::after {
+                @apply content-[''] absolute left-0 bottom-0 w-full h-[2px] bg-accent scale-x-0 origin-right transition-transform duration-300 ease-out;
+            }
+            .nav-link-desktop:hover::after {
+                @apply scale-x-100 origin-left;
+            }
+            .nav-link-desktop.active {
+                @apply text-accent;
+            }
+            .nav-link-desktop.active::after {
+                @apply scale-x-100 origin-left;
             }
             .accordion-content {
                 @apply grid transition-all duration-500 ease-in-out overflow-hidden;

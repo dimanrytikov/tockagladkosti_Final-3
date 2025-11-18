@@ -19,9 +19,9 @@ export const Footer: React.FC = () => {
     const isVisible = useIntersectionObserver(sectionRef, { threshold: 0.1 });
     
     const navLinks = [
-        { href: '#services', text: 'Услуги' },
-        { href: '#cosmetics', text: 'Уход Дома' },
-        { href: '#price-calc', text: 'Комплекс' },
+        { href: '#price-calc', text: 'Эпиляция' },
+        { href: '#services', text: 'SPA & Уходы' },
+        { href: '#cosmetics', text: 'Космецевтика' },
         { href: '#gift-certificates', text: 'Сертификаты' },
     ];
 
