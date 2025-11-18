@@ -80,17 +80,10 @@ const CartModal: React.FC<CartModalProps> = ({ items, onClose, onUpdateQuantity,
     const hasProducts = products.length > 0;
 
     // --- Calculation Logic ---
-    // The discount logic is as follows:
-    // 1. A 10% discount is applied to the total cost of all products (home care).
-    // 2. This discount is only valid if at least one service is also present in the cart.
-    // 3. Discounts on service courses are calculated when the item is added, not here. This ensures discounts are separate.
     const productsSubtotal = products.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const servicesSubtotal = services.reduce((sum, item) => sum + item.price, 0);
-    const subtotal = productsSubtotal + servicesSubtotal;
-
-    const isEligibleForProductsDiscount = hasServices && hasProducts;
-    const productsDiscount = isEligibleForProductsDiscount ? Math.round(productsSubtotal * 0.10) : 0;
-    const total = subtotal - productsDiscount;
+    // Manufacturer has forbidden discounts on cosmetics, so discount logic is removed.
+    const total = productsSubtotal + servicesSubtotal;
     
     const validateForm = () => {
         const newErrors: { name?: string; phone?: string } = {};
@@ -123,10 +116,6 @@ const CartModal: React.FC<CartModalProps> = ({ items, onClose, onUpdateQuantity,
             message += `\n🛍️ ЗАКАЗ КОСМЕТИКИ:\n${productDetails}\n`;
         }
         
-        message += `\nСумма: ${subtotal.toLocaleString('ru-RU')} р.`;
-        if(isEligibleForProductsDiscount) {
-            message += `\nСкидка на уход (10%): -${productsDiscount.toLocaleString('ru-RU')} р.`;
-        }
         message += `\nИтоговая сумма: ${total.toLocaleString('ru-RU')} р.\n\nПожалуйста, свяжитесь со мной для подтверждения.`;
 
         const encodedText = encodeURIComponent(message.trim());
@@ -211,7 +200,7 @@ const CartModal: React.FC<CartModalProps> = ({ items, onClose, onUpdateQuantity,
                             <div className="text-center p-3 mb-4 bg-accent/10 rounded-lg animate-fade-in">
                                 <p className="text-accent font-semibold">
                                     <span className="fas fa-magic mr-2" aria-hidden="true"></span>
-                                    Добавьте услугу и получите скидку 10% на весь домашний уход!
+                                    Добавьте услугу, и я помогу подобрать уход для продления эффекта!
                                 </p>
                             </div>
                         )}
@@ -219,31 +208,13 @@ const CartModal: React.FC<CartModalProps> = ({ items, onClose, onUpdateQuantity,
                             <div className="text-center p-3 mb-4 bg-accent/10 rounded-lg animate-fade-in">
                                 <p className="text-accent font-semibold">
                                     <span className="fas fa-shopping-bag mr-2" aria-hidden="true"></span>
-                                    Продлите эффект! Скидка 10% на домашний уход уже ждёт вас.
+                                    Не забудьте профессиональный уход, чтобы продлить эффект от процедуры.
                                 </p>
                             </div>
                         )}
-                        {isEligibleForProductsDiscount && (
-                            <div className="text-center p-3 mb-4 bg-green-500/20 rounded-lg animate-fade-in">
-                                <p className="text-green-400 font-semibold">
-                                    <span className="fas fa-check-circle mr-2" aria-hidden="true"></span>
-                                    Отлично! Скидка 10% на домашний уход успешно применена.
-                                </p>
-                            </div>
-                        )}
-
+                        
                         {/* --- Totals --- */}
                         <div className="space-y-2 mb-6">
-                            <div className="flex justify-between text-lg">
-                                <span>Сумма:</span>
-                                <span>{subtotal.toLocaleString('ru-RU')} р.</span>
-                            </div>
-                            {isEligibleForProductsDiscount && (
-                                <div className="flex justify-between text-lg text-green-400">
-                                    <span>Скидка на уход (10%):</span>
-                                    <span>- {productsDiscount.toLocaleString('ru-RU')} р.</span>
-                                </div>
-                            )}
                             <div className="flex justify-between text-2xl font-bold text-accent pt-2 border-t border-gray-700 mt-2">
                                 <span>ИТОГО:</span>
                                 <span>{total.toLocaleString('ru-RU')} р.</span>

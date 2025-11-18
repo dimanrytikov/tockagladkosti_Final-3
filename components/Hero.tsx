@@ -77,13 +77,13 @@ const Hero: React.FC = () => {
                     <a href="#cosmetics" onClick={handleScrollLink} className="flex flex-col p-6 bg-secondary rounded-xl shadow-lg transition-all duration-300 md:hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/20 active:scale-95 animate-fade-in-up [animation-delay:800ms] animate-subtle-float">
                         <div className="flex items-center mb-3">
                             <span className="fas fa-shopping-bag text-accent text-2xl mr-4 w-8 text-center" aria-hidden="true"></span>
-                            <h3 className="font-heading text-xl font-semibold text-text-main">Уход Дома -10%</h3>
+                            <h3 className="font-heading text-xl font-semibold text-text-main">Проф. Уход Дома</h3>
                         </div>
                         <p className="text-text-muted text-sm leading-relaxed mb-2 flex-grow">
-                            <strong className="text-accent">СКИДКА 10%</strong> на всю косметику при покупке в день процедуры, чтобы продлить эффект.
+                            Подберите профессиональный уход, чтобы усилить и продлить эффект от процедур в салоне.
                         </p>
                         <p className="text-sm text-accent font-semibold mt-auto pt-2 border-t border-accent/20">
-                           Продлите эффект от процедур с выгодой.
+                           Помогу подобрать идеальные средства.
                         </p>
                     </a>
                 </div>
