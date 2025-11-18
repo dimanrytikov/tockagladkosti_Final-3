@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { ModalData } from '../types';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
+import { CONTACT_PHONE_DISPLAY } from '../constants';
 
 interface GiftCertificatesProps {
     onOpenModal: (data: ModalData) => void;
@@ -48,41 +49,45 @@ const GiftCertificates: React.FC<GiftCertificatesProps> = ({ onOpenModal }) => {
                 <div className={`max-w-4xl mx-auto mt-12 grid lg:grid-cols-5 gap-0 bg-secondary rounded-2xl shadow-lg border border-gray-700/50 overflow-hidden transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '200ms' }}>
                     
                     {/* Left side: Certificate Visual */}
-                    <div className="lg:col-span-3 p-8 flex flex-col justify-between bg-surface relative overflow-hidden min-h-[350px]">
-                        <div className="absolute -top-10 -right-10 w-40 h-40 border-2 border-accent/10 rounded-full"></div>
-                        <div className="absolute bottom-[-5rem] left-[-5rem] w-60 h-60 bg-accent/5 rounded-full"></div>
-
-                        <div className="relative z-10">
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <p className="font-heading text-3xl text-accent">Подарочный</p>
-                                    <p className="font-heading text-3xl text-text-main">Сертификат</p>
-                                </div>
-                                <div className="font-heading text-5xl text-accent opacity-50 font-bold">ТГ</div>
-                            </div>
+                    <div className="lg:col-span-3 p-8 flex flex-col justify-between bg-[#8a7674] relative overflow-hidden min-h-[400px] rounded-t-2xl lg:rounded-l-2xl lg:rounded-tr-none text-white shadow-2xl">
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
+                        <div className="absolute inset-2 border border-white/20 rounded-xl pointer-events-none"></div>
+                        
+                        <div className="relative z-10 text-center">
+                            <p className="font-heading text-5xl tracking-wider leading-none">ТОЧКА</p>
+                            <p className="font-heading text-5xl tracking-wider leading-none -mt-1">ГЛАДКОСТИ</p>
+                            <p className="font-sans text-[10px] tracking-[0.2em] mt-2 opacity-80 uppercase">Косметология и лазерная эпиляция</p>
                         </div>
 
-                        <div className="relative z-10 text-center my-8">
-                            <p className="text-text-muted text-sm mb-2">На сумму</p>
-                            <div className="font-sans font-bold text-6xl text-accent transition-all duration-300 h-16 flex items-center justify-center">
+                        <div className="relative z-10 text-center my-6">
+                            <p className="font-sans opacity-80 text-base mb-1">Подарочный сертификат на сумму</p>
+                            <div className="font-sans font-bold text-7xl transition-all duration-300 h-20 flex items-center justify-center">
                                 {Number(amount) > 0 ? (
                                     <span className="animate-fade-in">
                                         {Number(amount).toLocaleString('ru-RU')}
-                                        <span className="text-4xl ml-2">р.</span>
+                                        <span className="text-5xl ml-2">₽</span>
                                     </span>
                                 ) : (
-                                    <span className="text-text-muted">...</span>
+                                    <span className="opacity-50">...</span>
                                 )}
                             </div>
                         </div>
 
                         <div className="relative z-10">
-                            <p className="text-xs text-text-muted text-center">Действителен на все услуги и косметику в студии "Точка Гладкости".</p>
+                            <p className="text-xs opacity-70 text-center mb-4">
+                                Действителен на все услуги и космецевтику в студии.
+                            </p>
+                            <div className="text-center text-xs opacity-90 border-t border-white/20 pt-3 leading-snug space-y-1">
+                                <p><span className="font-semibold">Ваш косметолог:</span> Екатерина</p>
+                                <p><span className="font-semibold">Адрес:</span> д. Грановщина, ул. Георгия Буркова, 2</p>
+                                <p><span className="font-semibold">Телефон:</span> {CONTACT_PHONE_DISPLAY}</p>
+                            </div>
                         </div>
                     </div>
 
+
                     {/* Right side: Controls */}
-                    <div className="lg:col-span-2 p-8 flex flex-col justify-center bg-secondary">
+                    <div className="lg:col-span-2 p-8 flex flex-col justify-center bg-secondary rounded-b-2xl lg:rounded-r-2xl lg:rounded-bl-none">
                         <h3 className="font-heading text-2xl text-text-main mb-6 text-center">Выберите номинал</h3>
                         
                         <div className="grid grid-cols-3 gap-3 mb-6">
