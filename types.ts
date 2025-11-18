@@ -52,6 +52,7 @@ export interface CalculatorZone {
     name: string;
     price: number;
     label: string;
+    originalPrice?: number;
 }
 
 export interface CalculatorCategory {

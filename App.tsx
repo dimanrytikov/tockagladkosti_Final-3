@@ -140,6 +140,8 @@ function App() {
     const totalCartItems = cartItems.reduce((total, item) => {
         return total + (item.type === 'product' ? item.quantity : 1);
     }, 0);
+    
+    const openGeneralModal = () => handleOpenModal({ name: 'Общая запись (без процедуры)', price: 'по прайсу', isComplex: false });
 
     return (
         <>
@@ -147,7 +149,7 @@ function App() {
             <AutumnLeaves />
             <div className={loading ? 'opacity-0' : 'animate-fade-in'}>
                 <Header 
-                    onOpenModal={() => handleOpenModal({ name: 'Общая запись (без процедуры)', price: 'по прайсу', isComplex: false })} 
+                    onOpenModal={openGeneralModal}
                     cartItemCount={totalCartItems}
                     onCartClick={() => setIsCartOpen(true)}
                 />

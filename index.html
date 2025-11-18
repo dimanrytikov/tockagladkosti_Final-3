@@ -96,13 +96,14 @@
                 @apply inline-block px-4 py-2.5 bg-surface border border-transparent rounded-full cursor-pointer transition-all duration-200 ease-in-out text-sm font-medium text-text-main;
             }
             .zone-label:hover {
-                @apply bg-gray-600;
+                @apply bg-gray-600 border-gray-500;
             }
             .zone-label:focus-within {
                 @apply ring-2 ring-accent ring-offset-2 ring-offset-primary;
             }
             .zone-label.checked {
-                @apply bg-accent text-text-on-accent font-semibold;
+                @apply bg-accent/20 text-accent font-semibold border-accent shadow-inner shadow-accent/10;
+                box-shadow: 0 0 10px 0 rgba(192, 152, 46, 0.3), inset 0 1px 2px rgba(0,0,0,0.3);
             }
             .back-to-top-button {
                 @apply fixed bottom-6 right-4 lg:bottom-8 lg:right-8 bg-accent/90 text-text-on-accent w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 ease-in-out hover:bg-accent hover:scale-110 z-40;
@@ -155,9 +156,10 @@
                     },
                     boxShadow: {
                         'lg': '0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1)',
+                        'xl-top': '0 -10px 20px -5px rgba(0, 0, 0, 0.3)',
                     },
                     animation: {
-                        'jiggle': 'jiggle 0.5s ease-in-out',
+                        'jiggle': 'jiggle 0.6s ease-in-out',
                         'fade-in': 'fade-in 0.5s ease-out forwards',
                         'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
                         'pulse-glow': 'pulse-glow 2.5s ease-in-out infinite',
@@ -166,13 +168,17 @@
                         'fall': 'fall linear infinite',
                         'sway': 'sway ease-in-out infinite alternate',
                         'flutter': 'flutter 6s ease-in-out infinite alternate',
+                        'slide-in-up': 'slide-in-up 0.5s ease-out forwards',
+                        'slide-in-right': 'slide-in-right 0.5s ease-out forwards',
+                        'pulse-accent': 'pulse-accent 2s ease-in-out infinite',
                     },
                     keyframes: {
                         'jiggle': {
-                            '0%, 100%': { transform: 'scale(1)' },
-                            '25%': { transform: 'scale(0.9) rotate(-3deg)' },
-                            '50%': { transform: 'scale(1.1) rotate(3deg)' },
-                            '75%': { transform: 'scale(1.05) rotate(0deg)' },
+                           '0%': { transform: 'scale(1)' },
+                           '30%': { transform: 'scale(1.15)' },
+                           '50%': { transform: 'scale(0.9) rotate(-3deg)' },
+                           '70%': { transform: 'scale(1.1) rotate(3deg)' },
+                           '100%': { transform: 'scale(1) rotate(0)' },
                         },
                         'fade-in': {
                             'from': { opacity: '0' },
@@ -211,7 +217,31 @@
                         'flutter': {
                             '0%': { transform: 'translateX(0px) rotate(-5deg)' },
                             '100%': { transform: 'translateX(20px) rotate(10deg)' }
-                        }
+                        },
+                        'slide-in-up': {
+                            'from': {
+                                opacity: '0',
+                                transform: 'translateY(100%)'
+                            },
+                            'to': {
+                                opacity: '1',
+                                transform: 'translateY(0)'
+                            },
+                        },
+                        'slide-in-right': {
+                            'from': {
+                                opacity: '0',
+                                transform: 'translateX(-20px)'
+                            },
+                            'to': {
+                                opacity: '1',
+                                transform: 'translateX(0)'
+                            },
+                        },
+                        'pulse-accent': {
+                            '0%, 100%': { color: '#e5e5e5' },
+                            '50%': { color: '#c0982e' },
+                        },
                     }
                 }
             },
